@@ -8,6 +8,7 @@ import {
   getDocs,
   updateDoc,
   arrayUnion,
+  addDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 
@@ -24,6 +25,12 @@ function Review() {
   const [reviewBody, setReviewBody] = useState("");
   const [rating, setRating] = useState(Number);
 
+  // states for error handling
+
+  const [ratingErr, setRatingErr] = useState("");
+  const [summaryErr, setSummaryErr] = useState("");
+  const [reviewBodyErr, setReviewBodyErr] = useState("");
+
   async function searchMovie(e) {
     e.preventDefault();
     try {
@@ -37,21 +44,43 @@ function Review() {
     }
   }
 
-  const userReviewsRef = doc(db, "reviews", `${user?.email}`);
+  function checkErrs() {
+    if (!rating > 0 && !rating < 6) {
+      setRatingErr("Need to include rating out of 5");
+    } else if (summary === "") {
+      setRatingErr("");
+      setSummaryErr("Please include a brief summary or tag");
+    } else if (reviewBody === "") {
+      setRatingErr("");
+      setSummaryErr("");
+      setReviewBodyErr("Please include your thoughts on the film");
+    } else {
+      setRatingErr("");
+      setSummaryErr("");
+      setReviewBodyErr("");
+      return true;
+    }
+  }
 
   async function handlePublishReview() {
-    await updateDoc(userReviewsRef, {
-      reviews: arrayUnion({
-        id: movieForReview.id,
-        movie: movieForReview,
-        summary: summary,
-        reviewBody: reviewBody,
-        rating: rating,
-        comments: [],
-      }),
-    });
+    if (checkErrs() !== true) {
+      return;
+    } else {
+      try {
+        await addDoc(collection(db, "reviews"), {
+          movie: movieForReview,
+          summary: summary,
+          author: user.email,
+          reviewBody: reviewBody,
+          rating: rating,
+          comments: [],
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
-    setWriteReview(false);
+      setWriteReview(false);
+    }
   }
 
   useEffect(() => {
@@ -106,32 +135,51 @@ function Review() {
         <div className="review__write">
           <h1>WRITE REVIEW</h1>
           <h1>{movieForReview.title}</h1>
-          <input
-            onChange={e => setRating(e.target.value)}
-            type="number"
-            min="0"
-            max="5"
-            placeholder="rating"
-            name="rating"
-            value={rating}
-          ></input>
+          <div>
+            <span
+              onClick={e => setRating(1)}
+              style={{ fill: "yellow" }}
+              class="material-symbols-outlined"
+            >
+              {rating > 0 ? "star" : "grade"}
+            </span>
+            <span onClick={e => setRating(2)} class="material-symbols-outlined">
+              {rating > 1 ? "star" : "grade"}
+            </span>
+            <span onClick={e => setRating(3)} class="material-symbols-outlined">
+              {rating > 2 ? "star" : "grade"}
+            </span>
+            <span onClick={e => setRating(4)} class="material-symbols-outlined">
+              {rating > 3 ? "star" : "grade"}
+            </span>
+            <span onClick={e => setRating(5)} class="material-symbols-outlined">
+              {rating > 4 ? "star" : "grade"}
+            </span>
+          </div>
+          {ratingErr && <div className="review__form-error">{ratingErr}</div>}
+
           <input
             onChange={e => setSummary(e.target.value)}
             placeholder="brief summary"
             value={summary}
-            name="sumamry"
+            name="summary"
           ></input>
+          {summaryErr && <div className="review__form-error">{summaryErr}</div>}
+
           <textarea
             onChange={e => setReviewBody(e.target.value)}
             placeholder="write review"
             value={reviewBody}
             name="reviewBody"
           ></textarea>
+          {reviewBodyErr && (
+            <div className="review__form-error">{reviewBodyErr}</div>
+          )}
           <div className="btn-container">
             <button className="btn" onClick={e => setWriteReview(false)}>
-              close
+              Close
             </button>
-            <button className="btn" onClick={handlePublishReview}>
+            <button className="btn " onClick={handlePublishReview}>
               Publish
             </button>
           </div>

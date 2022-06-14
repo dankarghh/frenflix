@@ -10,7 +10,12 @@ function Header() {
       <Link to="/home">
         <h1 className="header__heading">FRENFLIX</h1>
       </Link>
-      <h2>{user?.email}</h2>
+      {user && (
+        <Link to="/profile">
+          <span class="material-symbols-outlined">person</span>
+          <p>Account</p>
+        </Link>
+      )}
       {user ? (
         <div>
           <p>{user.name}</p>

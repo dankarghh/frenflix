@@ -6,6 +6,7 @@ import Profile from "./components/Profile";
 import Review from "./components/Review";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SignIn from "./components/SignIn";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
           <Header />
           <Routes>
             <Route path="home" element={<Home />} />
+            <Route path="review" element={<Review />} />
           </Routes>
+          <SignIn />
           <NewUser />
-          <Review />
         </BrowserRouter>
       </AuthContextProvider>
     </div>
