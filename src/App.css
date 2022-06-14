@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+#root {
+  min-width: 100vw;
   min-height: 100vh;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  background-color: #141414;
+  color: #e5e5e5;
+  font-family: "Lato", sans-serif;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+.header {
+  display: flex;
+  background-color: #141414;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 1rem;
+}
+
+.review__search-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 10px;
+}
+.review__search-img {
+  width: 100%;
+}
+.review__search-img-container {
+  max-width: 300px;
+  position: relative;
+}
+.btn {
+  padding: 0.5rem 2rem;
+  font: inherit;
+  background: #e50914;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin: 0.5rem 0rem;
+}
+input {
+  padding: 0.5rem 2rem;
+  background-color: #474646;
+  color: white;
+  border: none;
+  margin: 0.5rem 0rem;
+}
+textarea {
+  padding: 0.5rem 2rem;
+  background-color: #474646;
+  color: white;
+  border: none;
+  margin: 0.5rem;
+  resize: none;
+}
+input::placeholder {
+  color: #e5e5e5;
+  font: inherit;
+}
+textarea::placeholder {
+  color: #e5e5e5;
+  font: inherit;
+}
+.btn--review {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  z-index: 1;
+}
+.review__write {
+  position: absolute;
+  min-width: 300px;
+  min-height: 500px;
+  background-color: #141414;
+  z-index: 2;
+  padding: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.review {
+  position: relative;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* .review__search-cover {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(12, 12, 12, 0.082);
+  opacity: 0.3;
+  z-index: 1;
+} */
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  box-sizing: content-box;
+  padding: 1rem;
+}
+.form__new-user {
+  border: solid 1px white;
+  text-align: center;
+  border-radius: 10px;
+  padding: 4rem 2rem;
 }
