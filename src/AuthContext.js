@@ -13,11 +13,11 @@ export const AuthContext = createContext();
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
-  function createAccount(email, password, name) {
+  function createAccount(email, password, username) {
     createUserWithEmailAndPassword(auth, email, password);
     setDoc(doc(db, "users", email), {
       reviews: [],
-      profile: { name: name, about: "", criticRating: "8" },
+      profile: { username: username, about: "", criticRating: "8" },
     });
   }
 

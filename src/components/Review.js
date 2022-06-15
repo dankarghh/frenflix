@@ -11,6 +11,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Review() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,6 +31,8 @@ function Review() {
   const [ratingErr, setRatingErr] = useState("");
   const [summaryErr, setSummaryErr] = useState("");
   const [reviewBodyErr, setReviewBodyErr] = useState("");
+
+  const navigate = useNavigate();
 
   async function searchMovie(e) {
     e.preventDefault();
@@ -79,7 +82,8 @@ function Review() {
         console.log(error);
       }
 
-      setWriteReview(false);
+      handleCloseReviewForm();
+      navigate("/newsfeed");
     }
   }
 
@@ -112,6 +116,8 @@ function Review() {
   });
 
   function handleWriteReview(movie) {
+    const cover = document.querySelector(".review__search-cover");
+    cover.classList.remove("hidden");
     setReview({});
     setWriteReview(true);
     setMovieForReview(movie);
@@ -120,14 +126,26 @@ function Review() {
     setRating();
   }
 
+  function handleCloseReviewForm() {
+    setWriteReview(false);
+    const cover = document.querySelector(".review__search-cover");
+    cover.classList.add("hidden");
+    setWriteReview(false);
+  }
+
   return (
     <div className="review">
+      <div
+        className="review__search-cover hidden"
+        onClick={handleCloseReviewForm}
+      ></div>
+      <h1 className="review__heading">Search for movie to review</h1>
       <form onSubmit={searchMovie}>
         <input
           placeholder="type movie name"
           onChange={e => setSearchTerm(e.target.value)}
         ></input>
-        <button className="btn" type="button" onClick={searchMovie}>
+        <button className="btn btn--search" type="button" onClick={searchMovie}>
           SEARCH
         </button>
       </form>
@@ -176,7 +194,7 @@ function Review() {
             <div className="review__form-error">{reviewBodyErr}</div>
           )}
           <div className="btn-container">
-            <button className="btn" onClick={e => setWriteReview(false)}>
+            <button className="btn" onClick={handleCloseReviewForm}>
               Close
             </button>
             <button className="btn " onClick={handlePublishReview}>
@@ -185,7 +203,7 @@ function Review() {
           </div>
         </div>
       )}
-      <div className="review__search-cover"></div>
+
       <div className="review__search-grid">{resultElements}</div>
     </div>
   );

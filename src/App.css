@@ -1,6 +1,7 @@
 #root {
   min-width: 100vw;
   min-height: 100vh;
+  position: relative;
 }
 body {
   margin: 0;
@@ -13,7 +14,10 @@ body {
   font-family: "Lato", sans-serif;
   min-width: 100vw;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
 html {
   box-sizing: border-box;
 }
@@ -32,6 +36,18 @@ html {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
+}
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+.header__heading {
+  text-decoration: none;
+  color: #e50914;
 }
 
 .review__search-grid {
@@ -70,6 +86,7 @@ textarea {
   border: none;
   margin: 0.5rem 0rem;
   resize: none;
+  height: 6rem;
 }
 input::placeholder {
   color: #e5e5e5;
@@ -103,33 +120,33 @@ textarea::placeholder {
   padding: 3rem;
   left: 50%;
   transform: translateX(-50%);
-  top: 10rem;
+  top: 15rem;
+
   display: flex;
   flex-direction: column;
 }
 .review {
   position: relative;
 }
-/* .review__search-cover {
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(12, 12, 12, 0.082);
-  opacity: 0.3;
+.review__search-cover {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(12, 12, 12);
+  opacity: 0.8;
   z-index: 1;
-} */
+  position: absolute;
+}
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  min-width: 400px;
   box-sizing: content-box;
-  padding: 1rem;
-}
-.form__new-user {
-  border: solid 1px white;
-  text-align: center;
+  padding: 3rem;
+  background: #141414;
   border-radius: 10px;
-  padding: 4rem 2rem;
+  text-align: center;
 }
+
 .home__review-container {
   background-color: #2b2a2a;
   padding: 2rem;
@@ -188,4 +205,41 @@ textarea::placeholder {
 }
 .review__form-error {
   color: #e50914;
+}
+.home__review-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home__review-vote-icon {
+  margin-left: 1rem;
+}
+.form__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1b1b1b;
+}
+.sidenav {
+  border-radius: 10px;
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  top: 5rem;
+  left: 0;
+  padding-left: 2rem;
+}
+.newsfeed-container {
+  display: flex;
+  justify-content: center;
+}
+.btn--search {
+  margin-left: 1rem;
+}
+.hidden {
+  display: none;
+}
+.review__heading {
+  margin-top: 5rem;
 }
