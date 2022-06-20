@@ -5,6 +5,8 @@ import {
   updateDoc,
   doc,
   collection,
+  getDoc,
+  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
 
@@ -16,6 +18,9 @@ function Newsfeed() {
   const { user } = useContext(AuthContext);
   const [allReviews, setAllReviews] = useState([]);
   const [comment, setComment] = useState("");
+  const [reviewer, setReviewer] = useState({});
+  const userCollectionRef = collection(db, "users");
+  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
@@ -26,6 +31,9 @@ function Newsfeed() {
 
   async function addComment(e, id) {
     e.preventDefault();
+    const userRef = doc(db, "users", user.email);
+    const userDetails = await getDoc(userRef);
+    console.log(userDetails);
     const reviewRef = doc(db, "reviews", id);
     await updateDoc(reviewRef, {
       comments: arrayUnion({
@@ -36,6 +44,15 @@ function Newsfeed() {
 
     setComment("");
   }
+
+  useEffect(() => {
+    async function getUsers() {
+      const resp = await getDocs(userCollectionRef);
+      const data = await resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setAllUsers(data);
+    }
+    getUsers();
+  }, []);
 
   const allReviewElements = allReviews.map(review => {
     return (

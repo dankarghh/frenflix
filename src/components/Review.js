@@ -95,7 +95,7 @@ function Review() {
         );
         const data = await res.json();
 
-        setTrendingMovies(data.results);
+        setResults(data.results);
       } catch (error) {
         console.log(error);
       }

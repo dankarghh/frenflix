@@ -243,3 +243,19 @@ textarea::placeholder {
 .review__heading {
   margin-top: 5rem;
 }
+.sideNav__user-critic-badge {
+  background-color: green;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  flex-shrink: none;
+  flex-grow: none;
+  margin-left: 5px;
+}
+.sideNav__user {
+  display: flex;
+  align-items: baseline;
+}

@@ -11,14 +11,21 @@ function SideNav() {
   useEffect(() => {
     async function getUsers() {
       const resp = await getDocs(userCollectionRef);
-      const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      const data = await resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       setAllUsers(data);
     }
     getUsers();
   }, []);
 
   const mappedUsers = allUsers.map(user => {
-    return <div>{user.profile?.username}</div>;
+    return (
+      <div className="sideNav__user">
+        {user.profile?.username}
+        <div className="sideNav__user-critic-badge">
+          {user.profile?.criticRating}
+        </div>
+      </div>
+    );
   });
   return (
     <div className="sidenav">

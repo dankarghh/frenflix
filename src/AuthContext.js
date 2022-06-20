@@ -16,7 +16,6 @@ export function AuthContextProvider({ children }) {
   function createAccount(email, password, username) {
     createUserWithEmailAndPassword(auth, email, password);
     setDoc(doc(db, "users", email), {
-      reviews: [],
       profile: { username: username, about: "", criticRating: "8" },
     });
   }
