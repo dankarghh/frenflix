@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { isReactNative } from "@firebase/util";
 import { Link } from "react-router-dom";
 
 function SideNav() {

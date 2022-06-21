@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import NewUser from "./components/NewUser";
 import "./App.css";
 import Profile from "./components/Profile";
-import Review from "./components/Review";
+import NewReview from "./components/NewReview";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn";
@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/newsfeed" element={<Newsfeed />} />
-            <Route path="/review" element={<Review />} />
+            <Route path="/review" element={<NewReview />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/newuser" element={<NewUser />} />

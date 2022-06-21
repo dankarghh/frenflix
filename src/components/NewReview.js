@@ -1,19 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../AuthContext";
 import SearchResult from "./SearchResult";
-import {
-  setDoc,
-  doc,
-  collection,
-  getDocs,
-  updateDoc,
-  arrayUnion,
-  addDoc,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { Navigate, useNavigate } from "react-router-dom";
 
-function Review() {
+function NewReview() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState({});
@@ -77,6 +69,8 @@ function Review() {
           reviewBody: reviewBody,
           rating: rating,
           comments: [],
+          upVotes: [],
+          downVotes: [],
         });
       } catch (error) {
         console.log(error);
@@ -208,4 +202,4 @@ function Review() {
     </div>
   );
 }
-export default Review;
+export default NewReview;
