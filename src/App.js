@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SideNav from "./components/SideNav";
 import Newsfeed from "./components/Newsfeed";
+import { useContext } from "react";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/newsfeed" element={<Newsfeed />} />
             <Route path="/review" element={<NewReview />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:username" element={<Profile />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/newuser" element={<NewUser />} />
           </Routes>

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import AuthContext from "../AuthContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SignIn from "./SignIn";
 
 function Header() {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, loggedInUser } = useContext(AuthContext);
   let navigate = useNavigate();
 
   function handleLogOut() {
@@ -25,7 +25,9 @@ function Header() {
       )} */}
       {user ? (
         <div className="btn-container">
-          <p>Profile</p>
+          <Link to={`/profile/${loggedInUser.username}`}>
+            <p>Profile</p>
+          </Link>
           <button className="btn" onClick={handleLogOut}>
             Logout
           </button>

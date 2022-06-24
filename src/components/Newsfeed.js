@@ -15,7 +15,7 @@ import SideNav from "./SideNav";
 import NewsfeedReview from "./NewsfeedReview";
 
 function Newsfeed() {
-  const { user } = useContext(AuthContext);
+  const { user, loggedInUser } = useContext(AuthContext);
   const [allReviews, setAllReviews] = useState([]);
   const [comment, setComment] = useState("");
 
@@ -32,13 +32,12 @@ function Newsfeed() {
   async function addComment(e, id) {
     e.preventDefault();
     const userRef = doc(db, "users", user?.email);
-    const userDetails = await getDoc(userRef);
-    console.log(userDetails);
+    // const userDetails = await getDoc(userRef);
     const reviewRef = doc(db, "reviews", id);
     await updateDoc(reviewRef, {
       comments: arrayUnion({
         body: comment,
-        author: user.email,
+        author: loggedInUser?.username,
       }),
     });
 

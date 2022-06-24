@@ -13,9 +13,9 @@ function NewsfeedReview(props) {
   // use effect to find if user has already liked/diliked post
 
   useEffect(() => {
-    if (props.upVotes.includes(user.email)) {
+    if (props.upVotes.includes(user?.email)) {
       setVote(1);
-    } else if (props.downVotes.includes(user.email)) {
+    } else if (props.downVotes.includes(user?.email)) {
       setVote(-1);
     } else {
       setVote(0);
@@ -26,7 +26,7 @@ function NewsfeedReview(props) {
   useEffect(() => {
     function findAuthor(email) {
       const author = props.allUsers.find(user => user.id === email);
-      setPostAuthor(author.profile);
+      setPostAuthor(author);
     }
     findAuthor(props.author);
   }, []);
@@ -80,9 +80,7 @@ function NewsfeedReview(props) {
         alt=""
       ></img>
       <div className="home__review-caption">
-        <p>{postAuthor.username}</p>
-        <p>{postAuthor.criticRating}</p>
-
+        <p>{postAuthor?.username}</p>
         <div className="home__review-vote-container">
           <span
             onClick={upVote}

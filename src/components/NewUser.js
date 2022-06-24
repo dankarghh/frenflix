@@ -15,6 +15,7 @@ function NewUser() {
     e.preventDefault();
     try {
       await createAccount(email, password, username);
+
       navigate("/newsfeed");
     } catch (error) {
       console.log(error);

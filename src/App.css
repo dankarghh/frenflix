@@ -106,6 +106,7 @@ textarea::placeholder {
 .btn-container {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .btn-container button {
   margin-left: 1rem;
@@ -233,6 +234,7 @@ textarea::placeholder {
 .newsfeed-container {
   display: flex;
   justify-content: center;
+  margin-left: 200px;
 }
 .btn--search {
   margin-left: 1rem;
@@ -257,11 +259,81 @@ textarea::placeholder {
 }
 .sideNav__user {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+
+  padding-bottom: 0.5rem;
+  border-bottom: solid 1px #222121;
 }
 .green {
   color: green;
 }
 .red {
   color: red;
+}
+.profile {
+  margin-top: 5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+.profile__photo {
+  height: 300px;
+  width: 300px;
+  background-color: blue;
+  flex-shrink: none;
+  margin-right: 2rem;
+  border-radius: 50%;
+}
+.profile__about-input textarea {
+  width: 600px;
+}
+.profile__about-heading {
+  margin-bottom: 2rem;
+}
+
+.profile__about-heading {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.profile__about-rating-badge {
+  width: 30px;
+  height: 30px;
+  background-color: green;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+.profile__user-review {
+  max-width: 300px;
+  padding: 10px;
+}
+
+.profile__user-review-img img {
+  width: 100%;
+}
+.profile__review-container {
+  display: flex;
+}
+.profile__user-review-rating {
+  text-align: center;
+}
+.profile__user-review-summary {
+  text-align: center;
 }

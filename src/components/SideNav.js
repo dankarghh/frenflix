@@ -18,18 +18,18 @@ function SideNav() {
 
   const mappedUsers = allUsers.map(user => {
     return (
-      <div className="sideNav__user">
-        {user.profile?.username}
-        <div className="sideNav__user-critic-badge">
-          {user.profile?.criticRating}
+      <Link to={`/profile/${user?.username}`}>
+        <div className="sideNav__user">
+          {user?.username}
+          <div className="sideNav__user-critic-badge">{user?.criticRating}</div>
         </div>
-      </div>
+      </Link>
     );
   });
   return (
     <div className="sidenav">
       <h2>Users</h2>
-      <div>{mappedUsers}</div>
+      <div className="sideNav__users">{mappedUsers}</div>
       <Link to="/review">
         <h2>Write Review</h2>
       </Link>
