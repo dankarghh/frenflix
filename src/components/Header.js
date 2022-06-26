@@ -25,7 +25,7 @@ function Header() {
       )} */}
       {user ? (
         <div className="btn-container">
-          <Link to={`/profile/${loggedInUser.username}`}>
+          <Link to={`/profile/${loggedInUser?.username}`}>
             <p>Profile</p>
           </Link>
           <button className="btn" onClick={handleLogOut}>

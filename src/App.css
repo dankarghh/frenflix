@@ -72,6 +72,10 @@ a:visited {
   cursor: pointer;
   margin: 0.5rem 0rem;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 input {
   padding: 0.5rem 2rem;
   background-color: #474646;
@@ -228,8 +232,13 @@ textarea::placeholder {
   height: 100vh;
   position: fixed;
   top: 5rem;
-  left: 0;
+  bottom: 1rem;
+  left: 1rem;
   padding-left: 2rem;
+  background-color: #222121;
+}
+.newsfeed-column {
+  margin-top: 4rem;
 }
 .newsfeed-container {
   display: flex;
@@ -282,25 +291,34 @@ textarea::placeholder {
   margin-bottom: 2rem;
 }
 .profile__photo {
-  height: 300px;
-  width: 300px;
-  background-color: blue;
-  flex-shrink: none;
   margin-right: 2rem;
+  position: relative;
+}
+.profile__profile-pic {
+  width: 250px;
+  height: fit-content;
   border-radius: 50%;
 }
-.profile__about-input textarea {
-  width: 600px;
+
+.profile__photo-edit {
+  position: absolute;
+  left: 60%;
+  top: 80%;
+  display: flex;
+  align-items: center;
 }
-.profile__about-heading {
-  margin-bottom: 2rem;
+.profile__about-edit {
+  width: 100%;
+}
+.profile__about-edit-input {
+  width: 100%;
 }
 
 .profile__about-heading {
   display: flex;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .profile__about-rating-badge {
@@ -336,4 +354,7 @@ p {
 }
 .profile__user-review-summary {
   text-align: center;
+}
+.profile__photo-upload {
+  display: none;
 }

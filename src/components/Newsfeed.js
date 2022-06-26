@@ -77,7 +77,7 @@ function Newsfeed() {
   return (
     <div className="newsfeed-container">
       <SideNav />
-      <div>{allReviewElements}</div>
+      <div className="newsfeed-column">{allReviewElements}</div>
     </div>
   );
 }
