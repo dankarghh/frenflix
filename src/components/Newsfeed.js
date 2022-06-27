@@ -40,7 +40,14 @@ function Newsfeed() {
         author: loggedInUser?.username,
       }),
     });
-
+    // this block here is testing
+    await updateDoc(reviewRef, {
+      notifications: arrayUnion({
+        from: loggedInUser.username,
+        id: Math.random() * 4,
+        reviewId: id,
+      }),
+    });
     setComment("");
   }
 

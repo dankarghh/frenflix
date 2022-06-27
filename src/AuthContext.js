@@ -38,12 +38,6 @@ export function AuthContextProvider({ children }) {
     setUser(currentUser);
   });
 
-  // async function getUsers() {
-  //   const resp = await getDocs(userCollectionRef);
-  //   const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-  //   setAllUsers(data);
-  // }
-
   useEffect(() => {
     async function getUsersAndLoggedInUser(user) {
       if (user.email) {
@@ -51,25 +45,20 @@ export function AuthContextProvider({ children }) {
         const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
         const activeUser = data.find(doc => doc.id === user.email);
         setLoggedInUser(activeUser);
+
         setAllUsers(data);
       }
     }
     getUsersAndLoggedInUser(user);
-
-    // findLoggedInUser(user?.email);
   }, [user]);
 
   function findLoggedInUser(email) {
     const activeUser = allUsers.find(user => user.id === email);
     setLoggedInUser(activeUser);
+    console.log(activeUser);
   }
 
-  // useEffect(() => {
-  //   if (user?.email) {
-  //     getUsers();
-  //     findLoggedInUser(user.email);
-  //   }
-  // }, [auth, user]);
+  useEffect(() => {});
 
   return (
     <AuthContext.Provider
