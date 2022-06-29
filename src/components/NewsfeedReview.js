@@ -8,7 +8,7 @@ function NewsfeedReview(props) {
   const [vote, setVote] = useState();
   const [liked, setLiked] = useState();
   const [disliked, setDisliked] = useState();
-  const { user } = useContext(AuthContext);
+  const { user, loggedInUser } = useContext(AuthContext);
 
   // use effect to find if user has already liked/diliked post
 
@@ -65,10 +65,24 @@ function NewsfeedReview(props) {
       let downVoteArr = props.downVotes.filter(vote => vote !== user.email);
       await updateDoc(reviewDoc, { upVotes: arrayUnion(user.email) });
       await updateDoc(reviewDoc, { downVotes: downVoteArr });
+      await updateDoc(reviewDoc, {
+        notifications: arrayUnion({
+          message: `${loggedInUser.username} liked your review`,
+          id: Math.random() * 4,
+          reviewId: props.id,
+        }),
+      });
     } else if (newVote === -1 && !props.downVotes.includes(user.email)) {
       let upVoteArr = props.upVotes.filter(vote => vote !== user.email);
       await updateDoc(reviewDoc, { downVotes: arrayUnion(user.email) });
       await updateDoc(reviewDoc, { upVotes: upVoteArr });
+      await updateDoc(reviewDoc, {
+        notifications: arrayUnion({
+          message: `${loggedInUser.username} thought your review was trash`,
+          id: Math.random() * 4,
+          reviewId: props.id,
+        }),
+      });
     }
   }
 

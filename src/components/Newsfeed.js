@@ -43,7 +43,7 @@ function Newsfeed() {
     // this block here is testing
     await updateDoc(reviewRef, {
       notifications: arrayUnion({
-        from: loggedInUser.username,
+        message: `${loggedInUser.username} commented on your review`,
         id: Math.random() * 4,
         reviewId: id,
       }),

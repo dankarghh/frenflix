@@ -8,6 +8,10 @@ body {
   padding: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .App {
   background-color: #141414;
   color: #e5e5e5;
@@ -357,4 +361,29 @@ p {
 }
 .profile__photo-upload {
   display: none;
+}
+.header__notification-container {
+  position: relative;
+}
+.header__notification-number {
+  background-color: red;
+  width: 15px;
+  justify-content: center;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.header__notification-drop-down {
+  position: absolute;
+  top: 50px;
+  padding: 1rem 2rem;
+  background-color: #141414;
+}
+.header__notification-drop-down-message {
+  padding-bottom: 0.5rem;
 }
