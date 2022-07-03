@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import AuthContext from "../AuthContext";
 import { db } from "../firebase-config";
+import { useParams } from "react-router-dom";
 
 function NewsfeedReview(props) {
   const [postAuthor, setPostAuthor] = useState({});
@@ -9,6 +10,7 @@ function NewsfeedReview(props) {
   const [liked, setLiked] = useState();
   const [disliked, setDisliked] = useState();
   const { user, loggedInUser } = useContext(AuthContext);
+  const { id } = useParams();
 
   // use effect to find if user has already liked/diliked post
 
@@ -70,6 +72,7 @@ function NewsfeedReview(props) {
           message: `${loggedInUser.username} liked your review`,
           id: Math.random() * 4,
           reviewId: props.id,
+          read: false,
         }),
       });
     } else if (newVote === -1 && !props.downVotes.includes(user.email)) {
@@ -81,13 +84,14 @@ function NewsfeedReview(props) {
           message: `${loggedInUser.username} thought your review was trash`,
           id: Math.random() * 4,
           reviewId: props.id,
+          read: false,
         }),
       });
     }
   }
 
   return (
-    <div className="home__review-container">
+    <div className="home__review-container" id={props.id}>
       <img
         className="home__review-img"
         src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}

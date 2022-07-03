@@ -37,7 +37,7 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 0rem 1rem;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 1;
@@ -230,24 +230,33 @@ textarea::placeholder {
   height: 100vh;
   background-color: #1b1b1b;
 }
+.sidenav__container {
+  /* position: relative; */
+  width: 300px;
+  box-sizing: content-box;
+}
+
 .sidenav {
   border-radius: 10px;
+  position: sticky;
   width: 200px;
-  height: 100vh;
-  position: fixed;
   top: 5rem;
-  bottom: 1rem;
+  height: 80vh;
   left: 1rem;
   padding-left: 2rem;
   background-color: #222121;
+  margin-left: 1rem;
 }
-.newsfeed-column {
-  margin-top: 4rem;
+.main {
+  display: grid;
+  background-color: #1b1b1b;
+
+  grid-template-columns: 1fr 3fr;
 }
+
 .newsfeed-container {
   display: flex;
   justify-content: center;
-  margin-left: 200px;
 }
 .btn--search {
   margin-left: 1rem;
@@ -297,10 +306,12 @@ textarea::placeholder {
 .profile__photo {
   margin-right: 2rem;
   position: relative;
+  height: 250px;
 }
 .profile__profile-pic {
   width: 250px;
-  height: fit-content;
+  /* height: 250px; */
+  height: 100%;
   border-radius: 50%;
 }
 

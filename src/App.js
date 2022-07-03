@@ -18,15 +18,17 @@ function App() {
         <BrowserRouter>
           <Header />
 
-          {/* <SideNav /> */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/newsfeed" element={<Newsfeed />} />
-            <Route path="/review" element={<NewReview />} />
-            <Route path="/profile/:username" element={<Profile />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/newuser" element={<NewUser />} />
-          </Routes>
+          <div className="main">
+            <SideNav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/newsfeed" element={<Newsfeed />} />
+              <Route path="/review" element={<NewReview />} />
+              <Route path="/profile/:username" element={<Profile />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/newuser" element={<NewUser />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </AuthContextProvider>
     </div>

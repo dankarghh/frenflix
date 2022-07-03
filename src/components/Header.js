@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SignIn from "./SignIn";
 import { onSnapshot, collection, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
+import NewsfeedReview from "./NewsfeedReview";
 
 function Header() {
   const { user, logOut, loggedInUser } = useContext(AuthContext);
@@ -17,6 +18,14 @@ function Header() {
   function handleLogOut() {
     logOut();
     navigate("/signin");
+  }
+
+  function handleNotificationClick(id) {
+    navigate({
+      pathname: "/newsfeed",
+      search: `?id=${id}`,
+    });
+    toggleNotificationMenu();
   }
 
   function toggleNotificationMenu() {
@@ -63,11 +72,16 @@ function Header() {
 
   const notificationDropDown = notifications?.map(notification => {
     return (
-      <div className="header__notification-drop-down-message">
-        <Link to="">{notification.message}</Link>
+      <div
+        className="header__notification-drop-down-message"
+        onClick={e => handleNotificationClick(notification.reviewId)}
+      >
+        {notification.message}
       </div>
     );
   });
+
+  console.log(user);
 
   return (
     <div className="header">
@@ -75,7 +89,7 @@ function Header() {
         <h1 className="header__heading">FRENFLIX</h1>
       </Link>
 
-      {user ? (
+      {user.email ? (
         <div className="btn-container">
           <Link to={`/profile/${loggedInUser?.username}`}>
             <p>Profile</p>

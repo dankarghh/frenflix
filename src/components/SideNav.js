@@ -27,11 +27,11 @@ function SideNav() {
     );
   });
   return (
-    <div className="sidenav">
-      <Link to="/review">
-        <h2>Write Review</h2>
-      </Link>
-      <div>
+    <div className="sidenav__container">
+      <div className="sidenav">
+        <Link to="/review">
+          <h2>Write Review</h2>
+        </Link>
         <h2>Users</h2>
         <div className="sideNav__users">{mappedUsers}</div>
       </div>

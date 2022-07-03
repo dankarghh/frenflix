@@ -8,19 +8,27 @@ import {
   getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
+import { Element, ScrollElement } from "react-scroll";
 
 import { db } from "../firebase-config";
 import AuthContext from "../AuthContext";
 import SideNav from "./SideNav";
 import NewsfeedReview from "./NewsfeedReview";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Newsfeed() {
   const { user, loggedInUser } = useContext(AuthContext);
   const [allReviews, setAllReviews] = useState([]);
   const [comment, setComment] = useState("");
-
   const userCollectionRef = collection(db, "users");
   const [allUsers, setAllUsers] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const reviewId = searchParams?.get("id");
+    const reviewLinked = document.getElementById(reviewId);
+    reviewLinked?.scrollIntoView();
+  }, [searchParams]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
@@ -37,7 +45,7 @@ function Newsfeed() {
     await updateDoc(reviewRef, {
       comments: arrayUnion({
         body: comment,
-        author: loggedInUser?.username,
+        author: loggedInUser.username,
       }),
     });
     // this block here is testing
@@ -46,6 +54,7 @@ function Newsfeed() {
         message: `${loggedInUser.username} commented on your review`,
         id: Math.random() * 4,
         reviewId: id,
+        read: false,
       }),
     });
     setComment("");
@@ -83,7 +92,6 @@ function Newsfeed() {
 
   return (
     <div className="newsfeed-container">
-      <SideNav />
       <div className="newsfeed-column">{allReviewElements}</div>
     </div>
   );
