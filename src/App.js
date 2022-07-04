@@ -18,8 +18,8 @@ function App() {
         <BrowserRouter>
           <Header />
 
-          <div className="main">
-            <SideNav />
+          <div className="">
+            {/* <SideNav /> */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/newsfeed" element={<Newsfeed />} />

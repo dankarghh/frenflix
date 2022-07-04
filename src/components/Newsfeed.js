@@ -91,8 +91,13 @@ function Newsfeed() {
   });
 
   return (
+    <div className="main">
+      <SideNav />
     <div className="newsfeed-container">
       <div className="newsfeed-column">{allReviewElements}</div>
+    </div>
+
+
     </div>
   );
 }

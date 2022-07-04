@@ -12,6 +12,7 @@ import { db, storage } from "../firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { useParams } from "react-router-dom";
+import SideNav from "./SideNav";
 
 function Profile() {
   const userCollectionRef = collection(db, "users");
@@ -45,7 +46,7 @@ function Profile() {
     if (loggedInUser?.username === username) {
       setOwnProfile(true);
     }
-  }, []);
+  }, [username]);
 
   async function getUserReviews(userProfileData) {
     const reviewCollectionRef = collection(db, "reviews");
@@ -129,6 +130,8 @@ function Profile() {
   }
 
   return (
+    <div className="main">
+      <SideNav />
     <div className="profile">
       <div className="profile__info">
         <div className="profile__photo">
@@ -199,6 +202,7 @@ function Profile() {
         )}
         <div className="profile__review-container">{userReviewElements}</div>
       </div>
+    </div>
     </div>
   );
 }

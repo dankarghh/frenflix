@@ -8,7 +8,6 @@ import NewsfeedReview from "./NewsfeedReview";
 
 function Header() {
   const { user, logOut, loggedInUser } = useContext(AuthContext);
-
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -81,7 +80,7 @@ function Header() {
     );
   });
 
-  console.log(user);
+  
 
   return (
     <div className="header">
@@ -89,7 +88,7 @@ function Header() {
         <h1 className="header__heading">FRENFLIX</h1>
       </Link>
 
-      {user.email ? (
+      {user?.email ? (
         <div className="btn-container">
           <Link to={`/profile/${loggedInUser?.username}`}>
             <p>Profile</p>
