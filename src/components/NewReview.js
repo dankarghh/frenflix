@@ -71,6 +71,7 @@ function NewReview() {
           comments: [],
           upVotes: [],
           downVotes: [],
+          created: new Date()
         });
       } catch (error) {
         console.log(error);

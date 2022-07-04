@@ -5,6 +5,7 @@ import {
   doc,
   collection,
   getDoc,
+  orderBy,
   getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
@@ -32,10 +33,38 @@ function Newsfeed() {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-      setAllReviews(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      setAllReviews(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })).sort(function sortPosts(a, b){
+        if (a.created < b.created ){
+          return 1
+        }
+        if (a.created > b.created ) {
+          return -1
+        }
+      }));
+      
     });
     return unsubscribe;
   }, []);
+
+// function sortPosts(a, b) {
+//  if (a.created < b.created ){
+//     return -1
+//   }
+//   if (a.created > b.created ) {
+//     return 1
+//   }
+// }
+// useEffect(()=> {
+// console.log(allReviews)
+// setAllReviews(prevState=> prevState.sort(function sortPosts(a, b){
+//   if (a.created < b.created ){
+//     return 1
+//   }
+//   if (a.created > b.created ) {
+//     return -1
+//   }
+// }))
+// },[allReviews])
 
   async function addComment(e, id) {
     e.preventDefault();
