@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import AuthContext from "../AuthContext";
 import { db } from "../firebase-config";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function NewsfeedReview(props) {
   const [postAuthor, setPostAuthor] = useState({});
@@ -98,7 +98,7 @@ function NewsfeedReview(props) {
         alt=""
       ></img>
       <div className="home__review-caption">
-        <p>{postAuthor?.username}</p>
+        <Link to={`/profile/${postAuthor?.username}`}>{postAuthor?.username}</Link>
         <div className="home__review-vote-container">
           <span
             onClick={upVote}

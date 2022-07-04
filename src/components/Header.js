@@ -34,7 +34,7 @@ function Header() {
     setShowNotifications(prevState => !prevState);
   }
 
-  console.log(showNotifications);
+  
 
   useEffect(() => {
     if (loggedInUser?.id === undefined) {
