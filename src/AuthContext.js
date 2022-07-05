@@ -31,7 +31,7 @@ export function AuthContextProvider({ children }) {
   }
 
   function logOut() {
-    return signOut(auth);
+    signOut(auth);
   }
 
   onAuthStateChanged(auth, currentUser => {
@@ -40,13 +40,17 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     async function getUsersAndLoggedInUser(user) {
-      if (user.email) {
-        const resp = await getDocs(userCollectionRef);
-        const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-        const activeUser = data.find(doc => doc.id === user.email);
-        setLoggedInUser(activeUser);
+      try {
+        if (user.email) {
+          const resp = await getDocs(userCollectionRef);
+          const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+          const activeUser = data.find(doc => doc.id === user.email);
+          setLoggedInUser(activeUser);
 
-        setAllUsers(data);
+          setAllUsers(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
     getUsersAndLoggedInUser(user);

@@ -8,6 +8,7 @@ import NewsfeedReview from "./NewsfeedReview";
 
 function Header() {
   const { user, logOut, loggedInUser } = useContext(AuthContext);
+
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -18,6 +19,15 @@ function Header() {
     logOut();
     navigate("/signin");
   }
+
+  // await updateDoc(reviewDoc, {
+  //   notifications: arrayUnion({
+  //     message: `${loggedInUser.username} liked your review`,
+  //     id: Math.random() * 4,
+  //     reviewId: props.id,
+  //     read: false,
+  //   }),
+  // });
 
   function handleNotificationClick(id) {
     navigate({
@@ -33,8 +43,6 @@ function Header() {
       .classList.toggle("hidden");
     setShowNotifications(prevState => !prevState);
   }
-
-  
 
   useEffect(() => {
     if (loggedInUser?.id === undefined) {
@@ -80,7 +88,8 @@ function Header() {
     );
   });
 
-  
+  console.log(user);
+  console.log(loggedInUser);
 
   return (
     <div className="header">
@@ -98,9 +107,11 @@ function Header() {
             className="material-symbols-outlined header__notification-container"
           >
             notifications
-            <span className="header__notification-number">
-              {notifications?.length}
-            </span>
+            {notifications.length > 0 && (
+              <span className="header__notification-number">
+                {notifications?.length}
+              </span>
+            )}
           </span>
           <button className="btn" onClick={handleLogOut}>
             Logout

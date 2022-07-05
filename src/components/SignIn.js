@@ -39,7 +39,7 @@ function SignIn() {
           onChange={e => setPassword(e.target.value)}
         ></input>
         <button
-          type="button"
+          type="submit"
           onClick={e => handleSignIn(e, email, password)}
           className="btn"
         >

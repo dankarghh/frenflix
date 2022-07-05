@@ -4,6 +4,7 @@ import SearchResult from "./SearchResult";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { Navigate, useNavigate } from "react-router-dom";
+import SideNav from "./SideNav";
 
 function NewReview() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,7 +72,7 @@ function NewReview() {
           comments: [],
           upVotes: [],
           downVotes: [],
-          created: new Date()
+          created: new Date(),
         });
       } catch (error) {
         console.log(error);
@@ -129,77 +130,95 @@ function NewReview() {
   }
 
   return (
-    <div className="review">
-      <div
-        className="review__search-cover hidden"
-        onClick={handleCloseReviewForm}
-      ></div>
-      <h1 className="review__heading">Search for movie to review</h1>
-      <form onSubmit={searchMovie}>
-        <input
-          placeholder="type movie name"
-          onChange={e => setSearchTerm(e.target.value)}
-        ></input>
-        <button className="btn btn--search" type="button" onClick={searchMovie}>
-          SEARCH
-        </button>
-      </form>
-      {writeReview && (
-        <div className="review__write">
-          <h1>WRITE REVIEW</h1>
-          <h1>{movieForReview.title}</h1>
-          <div>
-            <span
-              onClick={e => setRating(1)}
-              style={{ fill: "yellow" }}
-              class="material-symbols-outlined"
-            >
-              {rating > 0 ? "star" : "grade"}
-            </span>
-            <span onClick={e => setRating(2)} class="material-symbols-outlined">
-              {rating > 1 ? "star" : "grade"}
-            </span>
-            <span onClick={e => setRating(3)} class="material-symbols-outlined">
-              {rating > 2 ? "star" : "grade"}
-            </span>
-            <span onClick={e => setRating(4)} class="material-symbols-outlined">
-              {rating > 3 ? "star" : "grade"}
-            </span>
-            <span onClick={e => setRating(5)} class="material-symbols-outlined">
-              {rating > 4 ? "star" : "grade"}
-            </span>
-          </div>
-          {ratingErr && <div className="review__form-error">{ratingErr}</div>}
-
+    <div className="main">
+      <SideNav />
+      <div className="review">
+        <div
+          className="review__search-cover hidden"
+          onClick={handleCloseReviewForm}
+        ></div>
+        <h1 className="review__heading">Search for movie to review</h1>
+        <form onSubmit={searchMovie}>
           <input
-            onChange={e => setSummary(e.target.value)}
-            placeholder="brief summary"
-            value={summary}
-            name="summary"
+            placeholder="type movie name"
+            onChange={e => setSearchTerm(e.target.value)}
           ></input>
-          {summaryErr && <div className="review__form-error">{summaryErr}</div>}
-
-          <textarea
-            onChange={e => setReviewBody(e.target.value)}
-            placeholder="write review"
-            value={reviewBody}
-            name="reviewBody"
-          ></textarea>
-          {reviewBodyErr && (
-            <div className="review__form-error">{reviewBodyErr}</div>
-          )}
-          <div className="btn-container">
-            <button className="btn" onClick={handleCloseReviewForm}>
-              Close
-            </button>
-            <button className="btn " onClick={handlePublishReview}>
-              Publish
-            </button>
+          <button
+            className="btn btn--search"
+            type="button"
+            onClick={searchMovie}
+          >
+            SEARCH
+          </button>
+        </form>
+        {writeReview && (
+          <div className="review__write">
+            <h1>WRITE REVIEW</h1>
+            <h1>{movieForReview.title}</h1>
+            <div>
+              <span
+                onClick={e => setRating(1)}
+                style={{ fill: "yellow" }}
+                class="material-symbols-outlined"
+              >
+                {rating > 0 ? "star" : "grade"}
+              </span>
+              <span
+                onClick={e => setRating(2)}
+                class="material-symbols-outlined"
+              >
+                {rating > 1 ? "star" : "grade"}
+              </span>
+              <span
+                onClick={e => setRating(3)}
+                class="material-symbols-outlined"
+              >
+                {rating > 2 ? "star" : "grade"}
+              </span>
+              <span
+                onClick={e => setRating(4)}
+                class="material-symbols-outlined"
+              >
+                {rating > 3 ? "star" : "grade"}
+              </span>
+              <span
+                onClick={e => setRating(5)}
+                class="material-symbols-outlined"
+              >
+                {rating > 4 ? "star" : "grade"}
+              </span>
+            </div>
+            {ratingErr && <div className="review__form-error">{ratingErr}</div>}
+            <input
+              onChange={e => setSummary(e.target.value)}
+              placeholder="brief summary"
+              value={summary}
+              name="summary"
+            ></input>
+            {summaryErr && (
+              <div className="review__form-error">{summaryErr}</div>
+            )}
+            <textarea
+              onChange={e => setReviewBody(e.target.value)}
+              placeholder="write review"
+              value={reviewBody}
+              name="reviewBody"
+            ></textarea>
+            {reviewBodyErr && (
+              <div className="review__form-error">{reviewBodyErr}</div>
+            )}
+            <div className="btn-container">
+              <button className="btn" onClick={handleCloseReviewForm}>
+                Close
+              </button>
+              <button className="btn " onClick={handlePublishReview}>
+                Publish
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-
-      <div className="review__search-grid">{resultElements}</div>
+        )}
+        <div className="review__search-grid">{resultElements}</div>
+      </div>
     </div>
   );
 }
