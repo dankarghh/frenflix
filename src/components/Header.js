@@ -2,7 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import SignIn from "./SignIn";
-import { onSnapshot, collection, query, where } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  query,
+  doc,
+  where,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../firebase-config";
 import NewsfeedReview from "./NewsfeedReview";
 
@@ -12,6 +20,7 @@ function Header() {
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState();
 
   let navigate = useNavigate();
 
@@ -20,16 +29,20 @@ function Header() {
     navigate("/signin");
   }
 
-  // await updateDoc(reviewDoc, {
-  //   notifications: arrayUnion({
-  //     message: `${loggedInUser.username} liked your review`,
-  //     id: Math.random() * 4,
-  //     reviewId: props.id,
-  //     read: false,
-  //   }),
-  // });
+  async function handleNotificationClick(id, notificationId) {
+    const filteredNotifications = notifications.filter(
+      notification => notification.id !== notificationId
+    );
+    console.log(filteredNotifications);
+    const reviewRef = doc(db, "reviews", id);
+    try {
+      await updateDoc(reviewRef, {
+        notifications: filteredNotifications,
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
-  function handleNotificationClick(id) {
     navigate({
       pathname: "/newsfeed",
       search: `?id=${id}`,
@@ -61,6 +74,16 @@ function Header() {
     return unsubscribe;
   }, [loggedInUser]);
 
+  // const calculateUnreadNotifications = () => {
+  //   let x = 0;
+  //   notifications.forEach(notification => {
+  //     if (notification.read === false) {
+  //       x = x + 1;
+  //     }
+  //   });
+  //   return x;
+  // };
+
   function getNotifications() {
     let newArray = [];
     userReviews.forEach(review => {
@@ -75,21 +98,21 @@ function Header() {
 
   useEffect(() => {
     getNotifications();
+    // calculateUnreadNotifications();
   }, [userReviews]);
 
   const notificationDropDown = notifications?.map(notification => {
     return (
       <div
         className="header__notification-drop-down-message"
-        onClick={e => handleNotificationClick(notification.reviewId)}
+        onClick={e =>
+          handleNotificationClick(notification.reviewId, notification.id)
+        }
       >
         {notification.message}
       </div>
     );
   });
-
-  console.log(user);
-  console.log(loggedInUser);
 
   return (
     <div className="header">

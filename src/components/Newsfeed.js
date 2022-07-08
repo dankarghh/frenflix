@@ -60,11 +60,11 @@ function Newsfeed() {
         author: loggedInUser.username,
       }),
     });
-    // this block here is testing
+
     await updateDoc(reviewRef, {
       notifications: arrayUnion({
         message: `${loggedInUser.username} commented on your review`,
-        id: Math.random() * 4,
+        notificationID: Math.random() * 4,
         reviewId: id,
         read: false,
       }),

@@ -31,7 +31,7 @@ function NewsfeedReview(props) {
       setPostAuthor(author);
     }
     findAuthor(props.author);
-  }, []);
+  }, [props]);
 
   function upVote() {
     let newVote = "";
@@ -98,7 +98,9 @@ function NewsfeedReview(props) {
         alt=""
       ></img>
       <div className="home__review-caption">
-        <Link to={`/profile/${postAuthor?.username}`}>{postAuthor?.username}</Link>
+        <Link to={`/profile/${postAuthor?.username}`}>
+          {postAuthor?.username}
+        </Link>
         <div className="home__review-vote-container">
           <span
             onClick={upVote}
