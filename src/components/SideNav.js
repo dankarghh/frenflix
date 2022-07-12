@@ -30,7 +30,10 @@ function SideNav() {
     <div className="sidenav__container">
       <div className="sidenav">
         <Link to="/review">
-          <h2>Write Review</h2>
+          <div className="sideNav__new-review">
+            <h2>Write Review</h2>
+            <span class="material-symbols-outlined icon--blue">add</span>
+          </div>
         </Link>
         <h2>Users</h2>
         <div className="sideNav__users">{mappedUsers}</div>

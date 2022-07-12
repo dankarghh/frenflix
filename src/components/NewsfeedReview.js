@@ -3,14 +3,22 @@ import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import AuthContext from "../AuthContext";
 import { db } from "../firebase-config";
 import { useParams, Link } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 function NewsfeedReview(props) {
   const [postAuthor, setPostAuthor] = useState({});
   const [vote, setVote] = useState();
-  const [liked, setLiked] = useState();
-  const [disliked, setDisliked] = useState();
+
   const { user, loggedInUser } = useContext(AuthContext);
   const { id } = useParams();
+  const [hover, setHover] = useState(false);
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  useEffect(() => {
+    if (props.comments.length < 4) {
+      setShowAllComments(true);
+    }
+  }, [props]);
 
   // use effect to find if user has already liked/diliked post
 
@@ -70,7 +78,7 @@ function NewsfeedReview(props) {
       await updateDoc(reviewDoc, {
         notifications: arrayUnion({
           message: `${loggedInUser.username} liked your review`,
-          id: Math.random() * 4,
+          notificationId: uuid(),
           reviewId: props.id,
           read: false,
         }),
@@ -82,7 +90,7 @@ function NewsfeedReview(props) {
       await updateDoc(reviewDoc, {
         notifications: arrayUnion({
           message: `${loggedInUser.username} thought your review was trash`,
-          id: Math.random() * 4,
+          notificationId: uuid(),
           reviewId: props.id,
           read: false,
         }),
@@ -150,21 +158,59 @@ function NewsfeedReview(props) {
           ></input>
         </form>
       </div>
-      <div className="home__review-comments">
-        {props.comments.map(comment => {
-          return (
-            <div className="home__comment-container">
-              <div className="user-initials">
-                {comment.author[0].toUpperCase()}
+
+      {showAllComments === true ? (
+        <div className="home__review-comments">
+          {props.comments.map(comment => {
+            return (
+              <div className="home__comment-container">
+                <div className="user-initials">
+                  {comment.author[0].toUpperCase()}
+                </div>
+                <div className="home__comment-content">
+                  <p className="home__comment-content-author">
+                    {comment.author}
+                  </p>
+                  <p className="home__comment-content-body">{comment.body}</p>
+                </div>
               </div>
-              <div className="home__comment-content">
-                <p className="home__comment-content-author">{comment.author}</p>
-                <p className="home__comment-content-body">{comment.body}</p>
-              </div>
+            );
+          })}
+          {props.comments.length > 3 && (
+            <p
+              onClick={e => setShowAllComments(false)}
+              className="home__comment-view-all"
+            >
+              Hide comments
+            </p>
+          )}
+        </div>
+      ) : (
+        <div className="home__review-comments">
+          <div className="home__comment-container">
+            <div className="user-initials">
+              {props.comments[
+                props.comments.length - 1
+              ].author[0].toUpperCase()}
             </div>
-          );
-        })}
-      </div>
+            <div className="home__comment-content">
+              <p className="home__comment-content-author">
+                {props.comments[props.comments.length - 1].author}
+              </p>
+              <p className="home__comment-content-body">
+                {props.comments[props.comments.length - 1].body}
+              </p>
+            </div>
+          </div>
+
+          <p
+            onClick={e => setShowAllComments(true)}
+            className="home__comment-view-all"
+          >
+            View {props.comments.length - 1} more comments
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -20,7 +20,6 @@ function Header() {
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [unreadNotifications, setUnreadNotifications] = useState();
 
   let navigate = useNavigate();
 
@@ -29,24 +28,27 @@ function Header() {
     navigate("/signin");
   }
 
-  async function handleNotificationClick(id, notificationId) {
+  async function handleNotificationClick(reviewId, notificationId) {
     const filteredNotifications = notifications.filter(
-      notification => notification.id !== notificationId
+      notification => notification.reviewId === reviewId
     );
-    console.log(filteredNotifications);
-    const reviewRef = doc(db, "reviews", id);
+    const newNotifications = filteredNotifications.filter(
+      notification => notification.notificationId !== notificationId
+    );
+
     try {
+      const reviewRef = doc(db, "reviews", reviewId);
       await updateDoc(reviewRef, {
-        notifications: filteredNotifications,
+        notifications: newNotifications,
       });
     } catch (error) {
       console.log(error);
     }
-
     navigate({
       pathname: "/newsfeed",
-      search: `?id=${id}`,
+      search: `?id=${reviewId}`,
     });
+
     toggleNotificationMenu();
   }
 
@@ -74,16 +76,6 @@ function Header() {
     return unsubscribe;
   }, [loggedInUser]);
 
-  // const calculateUnreadNotifications = () => {
-  //   let x = 0;
-  //   notifications.forEach(notification => {
-  //     if (notification.read === false) {
-  //       x = x + 1;
-  //     }
-  //   });
-  //   return x;
-  // };
-
   function getNotifications() {
     let newArray = [];
     userReviews.forEach(review => {
@@ -98,7 +90,6 @@ function Header() {
 
   useEffect(() => {
     getNotifications();
-    // calculateUnreadNotifications();
   }, [userReviews]);
 
   const notificationDropDown = notifications?.map(notification => {
@@ -106,7 +97,10 @@ function Header() {
       <div
         className="header__notification-drop-down-message"
         onClick={e =>
-          handleNotificationClick(notification.reviewId, notification.id)
+          handleNotificationClick(
+            notification.reviewId,
+            notification.notificationId
+          )
         }
       >
         {notification.message}
@@ -130,7 +124,7 @@ function Header() {
             className="material-symbols-outlined header__notification-container"
           >
             notifications
-            {notifications.length > 0 && (
+            {notifications?.length > 0 && (
               <span className="header__notification-number">
                 {notifications?.length}
               </span>

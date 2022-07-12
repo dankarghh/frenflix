@@ -15,7 +15,8 @@ import { db } from "../firebase-config";
 import AuthContext from "../AuthContext";
 import SideNav from "./SideNav";
 import NewsfeedReview from "./NewsfeedReview";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 function Newsfeed() {
   const { user, loggedInUser } = useContext(AuthContext);
@@ -24,12 +25,24 @@ function Newsfeed() {
   const userCollectionRef = collection(db, "users");
   const [allUsers, setAllUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchId, setSearchId] = useState(null);
+
+  const reviewId = searchParams.get("id");
+  useEffect(() => {
+    setSearchId(reviewId);
+  });
+
+  function navigateToNotification() {
+    const reviewLinked = document.getElementById(searchId);
+    console.log(reviewLinked);
+    if (reviewLinked) {
+      reviewLinked.scrollIntoView(false);
+    }
+  }
 
   useEffect(() => {
-    const reviewId = searchParams?.get("id");
-    const reviewLinked = document.getElementById(reviewId);
-    reviewLinked?.scrollIntoView();
-  }, [searchParams]);
+    navigateToNotification();
+  }, [searchId, reviewId]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
@@ -46,6 +59,7 @@ function Newsfeed() {
           })
       );
     });
+    navigateToNotification();
     return unsubscribe;
   }, []);
 
@@ -64,7 +78,7 @@ function Newsfeed() {
     await updateDoc(reviewRef, {
       notifications: arrayUnion({
         message: `${loggedInUser.username} commented on your review`,
-        notificationID: Math.random() * 4,
+        notificationId: uuid(),
         reviewId: id,
         read: false,
       }),

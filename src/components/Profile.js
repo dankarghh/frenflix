@@ -1,18 +1,12 @@
-import {
-  collection,
-  doc,
-  setDoc,
-  updateDoc,
-  getDocs,
-} from "firebase/firestore";
+import { collection, doc, updateDoc, getDocs } from "firebase/firestore";
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../AuthContext";
 import { db, storage } from "../firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
 import { useParams } from "react-router-dom";
 import SideNav from "./SideNav";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const userCollectionRef = collection(db, "users");
@@ -27,6 +21,8 @@ function Profile() {
   const [userReviews, setUserReviews] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
   const loggedInUserID = loggedInUser?.id;
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function getUsersAndFindProfile(username) {
@@ -62,9 +58,19 @@ function Profile() {
     }
   }
 
+  function handleReviewClick(reviewId) {
+    navigate({
+      pathname: "/newsfeed",
+      search: `?id=${reviewId}`,
+    });
+  }
+
   const userReviewElements = userReviews?.map(review => {
     return (
-      <div className="profile__user-review">
+      <div
+        className="profile__user-review"
+        onClick={e => handleReviewClick(review.id)}
+      >
         <div className="profile__user-review-img">
           <img
             alt=""
@@ -132,77 +138,77 @@ function Profile() {
   return (
     <div className="main">
       <SideNav />
-    <div className="profile">
-      <div className="profile__info">
-        <div className="profile__photo">
-          <img className="profile__profile-pic" src={profileURL} alt="" />
-          <div className="profile__photo-edit">
-            <input
-              className="profile__photo-upload"
-              accept="image/*"
-              type="file"
-              id="upload-pic"
-              onChange={e => setProfilePic(e.target.files[0])}
-            ></input>
-            <label for="upload-pic">
-              {" "}
-              <span class="material-symbols-outlined">photo_camera</span>
-            </label>
-            <button className="btn" onClick={uploadProfilePic}>
-              Upload
-            </button>
-          </div>
-        </div>
-        <div className="profile__about">
-          <h1 className="profile__about-heading--main">
-            {userData?.username}{" "}
-          </h1>
-          <div className="profile__about-heading">
-            <h2>Critic Rating: </h2>
-            <div className="profile__about-rating-badge">
-              <h3>{userData?.criticRating}</h3>
+      <div className="profile">
+        <div className="profile__info">
+          <div className="profile__photo">
+            <img className="profile__profile-pic" src={profileURL} alt="" />
+            <div className="profile__photo-edit">
+              <input
+                className="profile__photo-upload"
+                accept="image/*"
+                type="file"
+                id="upload-pic"
+                onChange={e => setProfilePic(e.target.files[0])}
+              ></input>
+              <label for="upload-pic">
+                {" "}
+                <span class="material-symbols-outlined">photo_camera</span>
+              </label>
+              <button className="btn" onClick={uploadProfilePic}>
+                Upload
+              </button>
             </div>
           </div>
-
-          <div>
+          <div className="profile__about">
+            <h1 className="profile__about-heading--main">
+              {userData?.username}{" "}
+            </h1>
             <div className="profile__about-heading">
-              <h3>About</h3>
-              {ownProfile && (
-                <span
-                  onClick={e => setEditAbout(true)}
-                  className="material-symbols-outlined"
-                >
-                  edit
-                </span>
+              <h2>Critic Rating: </h2>
+              <div className="profile__about-rating-badge">
+                <h3>{userData?.criticRating}</h3>
+              </div>
+            </div>
+
+            <div>
+              <div className="profile__about-heading">
+                <h3>About</h3>
+                {ownProfile && (
+                  <span
+                    onClick={e => setEditAbout(true)}
+                    className="material-symbols-outlined"
+                  >
+                    edit
+                  </span>
+                )}
+              </div>
+              {editAbout ? (
+                <div className="profile__about-edit">
+                  <textarea
+                    className="profile__about-edit-input"
+                    name="about"
+                    value={about}
+                    onChange={e => setAbout(e.target.value)}
+                  ></textarea>
+                  <button onClick={e => handleEditAboutMe(e)} className="btn">
+                    Enter
+                  </button>
+                </div>
+              ) : (
+                <p className="profile__about-content">{about}</p>
               )}
             </div>
-            {editAbout ? (
-              <div className="profile__about-edit">
-                <textarea
-                  className="profile__about-edit-input"
-                  name="about"
-                  value={about}
-                  onChange={e => setAbout(e.target.value)}
-                ></textarea>
-                <button onClick={e => handleEditAboutMe(e)} className="btn">
-                  Enter
-                </button>
-              </div>
-            ) : (
-              <p className="profile__about-content">{about}</p>
-            )}
+            {editAbout && <div> </div>}
           </div>
-          {editAbout && <div> </div>}
+        </div>
+        <div className="profile__reviews">
+          <h1>Reviews</h1>
+          {userReviews.length < 1 && (
+            <p>{username} hasn't uploaded any reviews just yet.</p>
+          )}
+          <div className="profile__review-container">{userReviewElements}</div>
         </div>
       </div>
-      <div className="profile__reviews">
-        <h1>Reviews</h1>
-        {userReviews.length < 1 && (
-          <p>{username} hasn't uploaded any reviews just yet.</p>
-        )}
-        <div className="profile__review-container">{userReviewElements}</div>
-      </div>
-    </div>
     </div>
   );
 }

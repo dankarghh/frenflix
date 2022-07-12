@@ -7,8 +7,8 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loggedInUser?.username ? navigate("./newsfeed") : navigate("./signin");
-  }, []);
+    user.email !== null ? navigate("./newsfeed") : navigate("./signin");
+  }, [user]);
 
   return <div></div>;
 }

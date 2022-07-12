@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
@@ -7,6 +7,10 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    user.email !== null ? navigate("./newsfeed") : navigate("./signin");
+  }, [user]);
 
   async function handleSignIn(e, email, password) {
     e.preventDefault();
