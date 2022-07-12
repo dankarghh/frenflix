@@ -11,7 +11,8 @@ function NewsfeedReview(props) {
 
   const { user, loggedInUser } = useContext(AuthContext);
   const { id } = useParams();
-  const [hover, setHover] = useState(false);
+  const [likeHover, setLikeHover] = useState(false);
+  const [dislikeHover, setDislikeHover] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
 
   useEffect(() => {
@@ -98,6 +99,20 @@ function NewsfeedReview(props) {
     }
   }
 
+  const likes = [];
+
+  props.upVotes.forEach(vote => {
+    const author = props.allUsers.find(user => user.id === vote);
+    likes.push(<p>{author?.username}</p>);
+  });
+
+  const dislikes = [];
+
+  props.downVotes.forEach(vote => {
+    const author = props.allUsers.find(user => user.id === vote);
+    dislikes.push(<p>{author?.username}</p>);
+  });
+
   return (
     <div className="home__review-container" id={props.id}>
       <img
@@ -110,31 +125,49 @@ function NewsfeedReview(props) {
           {postAuthor?.username}
         </Link>
         <div className="home__review-vote-container">
-          <span
-            onClick={upVote}
-            className={
-              vote === 1
-                ? "material-symbols-outlined home__review-vote-icon green"
-                : "material-symbols-outlined home__review-vote-icon "
-            }
-          >
-            thumb_up
+          <span className="home__review-upvote-container">
+            <span
+              onClick={upVote}
+              className={
+                vote === 1
+                  ? "material-symbols-outlined home__review-vote-icon green"
+                  : "material-symbols-outlined home__review-vote-icon "
+              }
+            >
+              thumb_up
+            </span>
+            <span
+              onMouseEnter={e => setLikeHover(true)}
+              onMouseLeave={e => setLikeHover(false)}
+              className="home__review-container-likes"
+            >
+              {props.upVotes.length > 0 ? props.upVotes.length : null}
+            </span>
+            <span className={likeHover ? "likes" : "likes hidden"}>
+              {likes}
+            </span>
           </span>
-          <span className="home__review-container-likes">
-            {props.upVotes.length > 0 ? props.upVotes.length : null}
-          </span>
-          <span
-            onClick={downVote}
-            className={
-              vote === -1
-                ? "material-symbols-outlined home__review-vote-icon red"
-                : "material-symbols-outlined home__review-vote-icon"
-            }
-          >
-            thumb_down
-          </span>
-          <span className="home__review-container-dislikes">
-            {props.downVotes.length > 0 ? props.downVotes.length : null}
+          <span className="home__review-downvote-container">
+            <span
+              onClick={downVote}
+              className={
+                vote === -1
+                  ? "material-symbols-outlined home__review-vote-icon red"
+                  : "material-symbols-outlined home__review-vote-icon"
+              }
+            >
+              thumb_down
+            </span>
+            <span
+              onMouseEnter={e => setDislikeHover(true)}
+              onMouseLeave={e => setDislikeHover(false)}
+              className="home__review-container-dislikes"
+            >
+              {props.downVotes.length > 0 ? props.downVotes.length : null}
+            </span>
+            <span className={dislikeHover ? "likes" : "likes hidden"}>
+              {dislikes}
+            </span>
           </span>
         </div>
       </div>

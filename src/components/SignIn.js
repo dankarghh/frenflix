@@ -3,14 +3,14 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function SignIn() {
-  const { logIn, user } = useContext(AuthContext);
+  const { logIn, user, loggedInUser, auth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
 
   useEffect(() => {
-    user.email !== null ? navigate("./newsfeed") : navigate("./signin");
-  }, [user]);
+    auth.currentUser && navigate("/newsfeed");
+  });
 
   async function handleSignIn(e, email, password) {
     e.preventDefault();

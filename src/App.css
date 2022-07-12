@@ -230,6 +230,22 @@ textarea::placeholder {
 }
 .home__review-vote-icon:hover {
 }
+
+.home__review-upvote-container {
+  position: relative;
+}
+.home__review-downvote-container {
+  position: relative;
+}
+.likes {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin-top: 10px;
+  background-color: #222222;
+  padding: 10px;
+}
+
 .form__container {
   display: flex;
   justify-content: center;

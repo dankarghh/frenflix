@@ -15,21 +15,27 @@ import { db } from "../firebase-config";
 import AuthContext from "../AuthContext";
 import SideNav from "./SideNav";
 import NewsfeedReview from "./NewsfeedReview";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 function Newsfeed() {
-  const { user, loggedInUser } = useContext(AuthContext);
+  const { user, loggedInUser, auth } = useContext(AuthContext);
   const [allReviews, setAllReviews] = useState([]);
   const [comment, setComment] = useState("");
-  const userCollectionRef = collection(db, "users");
   const [allUsers, setAllUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchId, setSearchId] = useState(null);
-
+  const userCollectionRef = collection(db, "users");
   const reviewId = searchParams.get("id");
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   setSearchId(reviewId);
+  // });
+
   useEffect(() => {
-    setSearchId(reviewId);
+    if (auth.currentUser === null) {
+      navigate("/signin");
+    }
   });
 
   function navigateToNotification() {

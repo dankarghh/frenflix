@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 
 function Home() {
-  const { user, loggedInUser } = useContext(AuthContext);
+  const { user, loggedInUser, auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  console.log(auth);
+
   useEffect(() => {
-    user.email !== null ? navigate("./newsfeed") : navigate("./signin");
-  }, [user]);
+    auth.currentUser?.email === null
+      ? navigate("/signin")
+      : navigate("/newsfeed");
+  }, [auth]);
 
   return <div></div>;
 }

@@ -25,7 +25,7 @@ function Header() {
 
   function handleLogOut() {
     logOut();
-    navigate("/signin");
+    navigate("signin");
   }
 
   async function handleNotificationClick(reviewId, notificationId) {
