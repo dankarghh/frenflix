@@ -224,14 +224,14 @@ function NewsfeedReview(props) {
             <div className="user-initials">
               {props.comments[
                 props.comments.length - 1
-              ].author[0].toUpperCase()}
+              ]?.author[0].toUpperCase()}
             </div>
             <div className="home__comment-content">
               <p className="home__comment-content-author">
-                {props.comments[props.comments.length - 1].author}
+                {props.comments[props.comments.length - 1]?.author}
               </p>
               <p className="home__comment-content-body">
-                {props.comments[props.comments.length - 1].body}
+                {props.comments[props.comments.length - 1]?.body}
               </p>
             </div>
           </div>

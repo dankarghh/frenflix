@@ -136,6 +136,7 @@ textarea::placeholder {
 }
 .review {
   position: relative;
+  padding: 2rem;
 }
 .review__search-cover {
   height: 100%;

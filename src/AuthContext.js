@@ -6,7 +6,13 @@ import {
 } from "firebase/auth";
 import { createContext, useState, useContext, useEffect } from "react";
 import { auth, db } from "./firebase-config";
-import { setDoc, doc, collection, getDocs } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  collection,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -15,6 +21,7 @@ export function AuthContextProvider({ children }) {
   const [allUsers, setAllUsers] = useState([]);
   const userCollectionRef = collection(db, "users");
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [allReviews, setAllReviews] = useState([]);
 
   function createAccount(email, password, username) {
     createUserWithEmailAndPassword(auth, email, password);
@@ -39,30 +46,36 @@ export function AuthContextProvider({ children }) {
   });
 
   useEffect(() => {
-    async function getUsersAndLoggedInUser(user) {
-      try {
-        if (user.email) {
-          const resp = await getDocs(userCollectionRef);
-          const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-          const activeUser = data.find(doc => doc.id === user.email);
-          setLoggedInUser(activeUser);
+    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
+      setAllReviews(
+        snapshot.docs
+          .map(doc => ({ ...doc.data(), id: doc.id }))
+          .sort(function sortPosts(a, b) {
+            if (a.created < b.created) {
+              return 1;
+            }
+            if (a.created > b.created) {
+              return -1;
+            }
+          })
+      );
+    });
 
-          setAllUsers(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getUsersAndLoggedInUser(user);
-  }, [user]);
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
+      setAllUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    });
+
+    return unsubscribe;
+  }, []);
 
   function findLoggedInUser(email) {
     const activeUser = allUsers.find(user => user.id === email);
     setLoggedInUser(activeUser);
-    console.log(activeUser);
   }
-
-  useEffect(() => {});
 
   return (
     <AuthContext.Provider
@@ -75,8 +88,8 @@ export function AuthContextProvider({ children }) {
         auth,
         allUsers,
         loggedInUser,
-        findLoggedInUser,
         setLoggedInUser,
+        allReviews,
       }}
     >
       {children}

@@ -9,7 +9,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
-import { Element, ScrollElement } from "react-scroll";
 
 import { db } from "../firebase-config";
 import AuthContext from "../AuthContext";
@@ -19,13 +18,13 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 function Newsfeed() {
-  const { user, loggedInUser, auth } = useContext(AuthContext);
-  const [allReviews, setAllReviews] = useState([]);
+  const { user, loggedInUser, auth, allReviews, allUsers } =
+    useContext(AuthContext);
+
   const [comment, setComment] = useState("");
-  const [allUsers, setAllUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchId, setSearchId] = useState(null);
-  const userCollectionRef = collection(db, "users");
+  // const userCollectionRef = collection(db, "users");
   const reviewId = searchParams.get("id");
   const navigate = useNavigate();
   // useEffect(() => {
@@ -40,7 +39,7 @@ function Newsfeed() {
 
   function navigateToNotification() {
     const reviewLinked = document.getElementById(searchId);
-    console.log(reviewLinked);
+
     if (reviewLinked) {
       reviewLinked.scrollIntoView(false);
     }
@@ -50,29 +49,9 @@ function Newsfeed() {
     navigateToNotification();
   }, [searchId, reviewId]);
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-      setAllReviews(
-        snapshot.docs
-          .map(doc => ({ ...doc.data(), id: doc.id }))
-          .sort(function sortPosts(a, b) {
-            if (a.created < b.created) {
-              return 1;
-            }
-            if (a.created > b.created) {
-              return -1;
-            }
-          })
-      );
-    });
-    navigateToNotification();
-    return unsubscribe;
-  }, []);
-
   async function addComment(e, id) {
     e.preventDefault();
     const userRef = doc(db, "users", user?.email);
-    // const userDetails = await getDoc(userRef);
     const reviewRef = doc(db, "reviews", id);
     await updateDoc(reviewRef, {
       comments: arrayUnion({
@@ -91,15 +70,6 @@ function Newsfeed() {
     });
     setComment("");
   }
-
-  useEffect(() => {
-    async function getUsers() {
-      const resp = await getDocs(userCollectionRef);
-      const data = await resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-      setAllUsers(data);
-    }
-    getUsers();
-  }, []);
 
   const allReviewElements = allReviews.map(review => {
     return (
