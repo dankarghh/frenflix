@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
   const userCollectionRef = collection(db, "users");
   const { username } = useParams();
-  const { user, loggedInUser } = useContext(AuthContext);
+  const { loggedInUser } = useContext(AuthContext);
 
   const [profileURL, setProfileURL] = useState("");
   const [userData, setUserData] = useState(null);

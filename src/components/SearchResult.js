@@ -1,10 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AuthContext from "../AuthContext";
-import { collection, doc, setDoc } from "firebase/firestore";
 
 function SearchResult(props) {
-  const { user } = useContext(AuthContext);
-
   const [hover, setHover] = useState(false);
   function handleHover() {
     setHover(true);
@@ -12,10 +9,6 @@ function SearchResult(props) {
   function handleNotHover() {
     setHover(false);
   }
-
-  //   function addReview(movie) {
-  //     console.log(movie);
-  //   }
 
   return (
     <div

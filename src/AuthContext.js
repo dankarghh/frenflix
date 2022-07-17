@@ -45,37 +45,42 @@ export function AuthContextProvider({ children }) {
     setUser(currentUser);
   });
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-      setAllReviews(
-        snapshot.docs
-          .map(doc => ({ ...doc.data(), id: doc.id }))
-          .sort(function sortPosts(a, b) {
-            if (a.created < b.created) {
-              return 1;
-            }
-            if (a.created > b.created) {
-              return -1;
-            }
-          })
-      );
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
+  //     setAllReviews(
+  //       snapshot.docs
+  //         .map(doc => ({ ...doc.data(), id: doc.id }))
+  //         .sort(function sortPosts(a, b) {
+  //           if (a.created < b.created) {
+  //             return 1;
+  //           }
+  //           if (a.created > b.created) {
+  //             return -1;
+  //           }
+  //         })
+  //     );
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
-      setAllUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      const data = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setAllUsers(data);
     });
 
-    return unsubscribe;
+    return unsubscribe();
   }, []);
 
-  function findLoggedInUser(email) {
+  async function findLoggedInUser(email) {
     const activeUser = allUsers.find(user => user.id === email);
     setLoggedInUser(activeUser);
   }
+
+  useEffect(() => {
+    findLoggedInUser(user.email);
+  }, []);
 
   return (
     <AuthContext.Provider

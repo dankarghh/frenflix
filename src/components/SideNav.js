@@ -72,9 +72,9 @@ function SideNav() {
     }
   }
 
-  useEffect(() => {
-    calculateCriticScores();
-  }, []);
+  // useEffect(() => {
+  //   calculateCriticScores();
+  // }, []);
 
   const mappedUsers = allUsers
     .sort(function (a, b) {

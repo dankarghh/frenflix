@@ -1,12 +1,9 @@
 import {
   arrayUnion,
-  onSnapshot,
   updateDoc,
   doc,
+  onSnapshot,
   collection,
-  getDoc,
-  orderBy,
-  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
 
@@ -18,9 +15,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 function Newsfeed() {
-  const { user, loggedInUser, auth, allReviews, allUsers } =
-    useContext(AuthContext);
+  const { user, loggedInUser, auth, allUsers } = useContext(AuthContext);
 
+  const [allReviews, setAllReviews] = useState([]);
   const [comment, setComment] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchId, setSearchId] = useState(null);
@@ -30,6 +27,25 @@ function Newsfeed() {
   // useEffect(() => {
   //   setSearchId(reviewId);
   // });
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
+      setAllReviews(
+        snapshot.docs
+          .map(doc => ({ ...doc.data(), id: doc.id }))
+          .sort(function sortPosts(a, b) {
+            if (a.created < b.created) {
+              return 1;
+            }
+            if (a.created > b.created) {
+              return -1;
+            }
+          })
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (auth.currentUser === null) {
@@ -51,7 +67,7 @@ function Newsfeed() {
 
   async function addComment(e, id) {
     e.preventDefault();
-    const userRef = doc(db, "users", user?.email);
+    // const userRef = doc(db, "users", user?.email);
     const reviewRef = doc(db, "reviews", id);
     await updateDoc(reviewRef, {
       comments: arrayUnion({

@@ -21,8 +21,6 @@ function NewsfeedReview(props) {
     }
   }, [props]);
 
-  // use effect to find if user has already liked/diliked post
-
   useEffect(() => {
     if (props.upVotes.includes(user?.email)) {
       setVote(1);
