@@ -15,8 +15,7 @@ import { db } from "../firebase-config";
 import NewsfeedReview from "./NewsfeedReview";
 
 function Header() {
-  const { user, logOut, loggedInUser } = useContext(AuthContext);
-
+  const { user, logOut, loggedInUser, allReviews } = useContext(AuthContext);
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -59,22 +58,22 @@ function Header() {
     setShowNotifications(prevState => !prevState);
   }
 
-  useEffect(() => {
-    if (loggedInUser?.id === undefined) {
-      return;
-    }
-    const q = query(
-      collection(db, "reviews"),
-      where("author", "==", loggedInUser?.id)
-    );
+  // useEffect(() => {
+  //   if (loggedInUser?.id === undefined) {
+  //     return;
+  //   }
+  //   const q = query(
+  //     collection(db, "reviews"),
+  //     where("author", "==", loggedInUser?.id)
+  //   );
 
-    const unsubscribe = onSnapshot(q, querySnapshot => {
-      setUserReviews(
-        querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-      );
-    });
-    return unsubscribe;
-  }, [loggedInUser]);
+  //   const unsubscribe = onSnapshot(q, querySnapshot => {
+  //     setUserReviews(
+  //       querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+  //     );
+  //   });
+  //   return unsubscribe;
+  // }, [loggedInUser]);
 
   function getNotifications() {
     let newArray = [];

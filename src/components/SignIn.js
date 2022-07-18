@@ -6,6 +6,7 @@ function SignIn() {
   const { logIn, user, loggedInUser, auth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState('')
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -17,9 +18,10 @@ function SignIn() {
 
     try {
       await logIn(email, password);
+      setErrorMsg('')
       navigate("/newsfeed");
     } catch (error) {
-      console.log(error);
+      setErrorMsg('Username/Password not found')
     }
   }
 
@@ -42,6 +44,7 @@ function SignIn() {
           type="password"
           onChange={e => setPassword(e.target.value)}
         ></input>
+        <div className="signIn__error-message">{errorMsg}</div>
         <button
           type="submit"
           onClick={e => handleSignIn(e, email, password)}

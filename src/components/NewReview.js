@@ -131,12 +131,13 @@ function NewReview() {
 
   return (
     <div className="main">
-      <SideNav />
-      <div className="review">
-        <div
+       <div
           className="review__search-cover hidden"
           onClick={handleCloseReviewForm}
         ></div>
+      <SideNav />
+      <div className="review">
+       
         <h1 className="review__heading">Search for movie to review</h1>
         <form onSubmit={searchMovie}>
           <input

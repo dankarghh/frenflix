@@ -129,14 +129,13 @@ textarea::placeholder {
   padding: 3rem;
   left: 50%;
   transform: translateX(-50%);
-  top: 15rem;
-
+  top: 50vh;
   display: flex;
   flex-direction: column;
 }
 .review {
-  position: relative;
-  padding: 2rem;
+  /* position: relative; */
+  padding-right: 2rem;
 }
 .review__search-cover {
   height: 100%;
@@ -144,7 +143,11 @@ textarea::placeholder {
   background-color: rgb(12, 12, 12);
   opacity: 0.8;
   z-index: 1;
-  position: absolute;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 .form {
   display: flex;
@@ -300,7 +303,7 @@ textarea::placeholder {
   display: none;
 }
 .review__heading {
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 .sideNav__user-critic-badge {
   background-color: green;
@@ -437,4 +440,7 @@ p {
 .header__notification-drop-down-message {
   padding-bottom: 0.5rem;
   cursor: pointer;
+}
+.signIn__error-message {
+  color: red;
 }

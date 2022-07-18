@@ -11,23 +11,25 @@ import { Link } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function SideNav() {
-  const [allUsers, setAllUsers] = useState([]);
-  const [allReviews, setAllReviews] = useState([]);
+  const {allReviews, allUsers} = useContext(AuthContext)
+  const [allUsersSorted, setAllUsersSorted] = useState([])
+  // const [allUsers, setAllUsers] = useState([]);
+  // const [allReviews, setAllReviews] = useState([]);
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-      setAllReviews(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
+  //     setAllReviews(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
-      setAllUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    });
-    return unsubscribe;
-  });
+  // useEffect(() => {
+  //   const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
+  //     setAllUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+  //   });
+  //   return unsubscribe;
+  // });
 
   // useEffect(() => {
   //   async function getAllUsers() {
@@ -75,17 +77,20 @@ function SideNav() {
   // useEffect(() => {
   //   calculateCriticScores();
   // }, []);
-
-  const mappedUsers = allUsers
-    .sort(function (a, b) {
+  
+  useEffect(()=> {
+  const copyUserArr = allUsers.map(user => user)
+    setAllUsersSorted(copyUserArr.sort(function (a, b) {
       if (a.criticRating < b.criticRating) {
         return 1;
       }
       if (a.criticRating > b.criticRating) {
         return -1;
       }
-    })
-    .map(user => {
+    }))
+},[allUsers])
+
+  const mappedUsers = allUsersSorted.map(user => {
       return (
         <Link to={`/profile/${user?.username}`}>
           <div className="sideNav__user">

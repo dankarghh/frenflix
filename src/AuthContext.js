@@ -45,24 +45,24 @@ export function AuthContextProvider({ children }) {
     setUser(currentUser);
   });
 
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-  //     setAllReviews(
-  //       snapshot.docs
-  //         .map(doc => ({ ...doc.data(), id: doc.id }))
-  //         .sort(function sortPosts(a, b) {
-  //           if (a.created < b.created) {
-  //             return 1;
-  //           }
-  //           if (a.created > b.created) {
-  //             return -1;
-  //           }
-  //         })
-  //     );
-  //   });
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
+      setAllReviews(
+        snapshot.docs
+          .map(doc => ({ ...doc.data(), id: doc.id }))
+          .sort(function sortPosts(a, b) {
+            if (a.created < b.created) {
+              return 1;
+            }
+            if (a.created > b.created) {
+              return -1;
+            }
+          })
+      );
+    });
 
-  //   return unsubscribe;
-  // }, []);
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
@@ -80,7 +80,7 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     findLoggedInUser(user.email);
-  }, []);
+  }, [user]);
 
   return (
     <AuthContext.Provider
