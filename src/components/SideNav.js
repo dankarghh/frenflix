@@ -11,44 +11,21 @@ import { Link } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function SideNav() {
-  const {allReviews, allUsers} = useContext(AuthContext)
-  const [allUsersSorted, setAllUsersSorted] = useState([])
-  // const [allUsers, setAllUsers] = useState([]);
-  // const [allReviews, setAllReviews] = useState([]);
+  const { allReviews, allUsers } = useContext(AuthContext);
+  const [allUsersCopy, setAllUsersCopy] = useState([]);
 
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-  //     setAllReviews(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
-  //     setAllUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-  //   });
-  //   return unsubscribe;
-  // });
-
-  // useEffect(() => {
-  //   async function getAllUsers() {
-  //     try {
-  //       const userCollectionRef = collection(db, "users");
-  //       const resp = await getDocs(userCollectionRef);
-  //       const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-  //       setAllUsers(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getAllUsers();
-  // }, [allReviews]);
+  useEffect(() => {
+    const copiedArr = allUsers.map(user => {
+      return user;
+    });
+    setAllUsersCopy(copiedArr);
+  }, [allReviews, allUsers]);
 
   function calculateCriticScores() {
     allUsers.forEach(user => {
       const resultArr = allReviews.filter(review => review.author === user.id);
       let currentRating = user.criticRating;
+
       let newRating = 8;
       if (resultArr.length === 0) {
         return;
@@ -74,25 +51,24 @@ function SideNav() {
     }
   }
 
-  // useEffect(() => {
-  //   calculateCriticScores();
-  // }, []);
-  
-  useEffect(()=> {
-  const copyUserArr = allUsers.map(user => user)
-    setAllUsersSorted(copyUserArr.sort(function (a, b) {
+  useEffect(() => {
+    if (allUsers && allReviews) {
+      calculateCriticScores();
+    }
+  }, [allReviews]);
+
+  const mappedUsers = allUsersCopy
+    .sort(function (a, b) {
       if (a.criticRating < b.criticRating) {
         return 1;
       }
       if (a.criticRating > b.criticRating) {
         return -1;
       }
-    }))
-},[allUsers])
-
-  const mappedUsers = allUsersSorted.map(user => {
+    })
+    .map(user => {
       return (
-        <Link to={`/profile/${user?.username}`}>
+        <Link key={user.username} to={`/profile/${user?.username}`}>
           <div className="sideNav__user">
             {user?.username}
             <div className="sideNav__user-critic-badge">
@@ -102,6 +78,7 @@ function SideNav() {
         </Link>
       );
     });
+
   return (
     <div className="sidenav__container">
       <div className="sidenav">
@@ -111,8 +88,10 @@ function SideNav() {
             <span class="material-symbols-outlined icon--blue">add</span>
           </div>
         </Link>
-        <h2>Users</h2>
-        <div className="sideNav__users">{mappedUsers}</div>
+        <div>
+          <h2 className="sideNav__users-heading">Users</h2>
+          <div className="sideNav__users">{mappedUsers}</div>
+        </div>
       </div>
     </div>
   );

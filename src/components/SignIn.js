@@ -6,22 +6,22 @@ function SignIn() {
   const { logIn, user, loggedInUser, auth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState('')
+  const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
 
-  useEffect(() => {
-    auth.currentUser && navigate("/newsfeed");
-  });
+  // useEffect(() => {
+  //   auth.currentUser && navigate("/newsfeed");
+  // }, []);
 
   async function handleSignIn(e, email, password) {
     e.preventDefault();
 
     try {
       await logIn(email, password);
-      setErrorMsg('')
+      setErrorMsg("");
       navigate("/newsfeed");
     } catch (error) {
-      setErrorMsg('Username/Password not found')
+      setErrorMsg("Username/Password not found");
     }
   }
 

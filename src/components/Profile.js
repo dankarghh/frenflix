@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
   const userCollectionRef = collection(db, "users");
   const { username } = useParams();
-  const { loggedInUser } = useContext(AuthContext);
+  const { loggedInUser, setNotificationClicked } = useContext(AuthContext);
 
   const [profileURL, setProfileURL] = useState("");
   const [userData, setUserData] = useState(null);
@@ -39,8 +39,10 @@ function Profile() {
       );
     }
     getUsersAndFindProfile(username);
-    if (loggedInUser?.username === username) {
+    if (loggedInUser.username === username) {
       setOwnProfile(true);
+    } else {
+      setOwnProfile(false);
     }
   }, [username]);
 
@@ -141,23 +143,32 @@ function Profile() {
       <div className="profile">
         <div className="profile__info">
           <div className="profile__photo">
-            <img className="profile__profile-pic" src={profileURL} alt="" />
-            <div className="profile__photo-edit">
-              <input
-                className="profile__photo-upload"
-                accept="image/*"
-                type="file"
-                id="upload-pic"
-                onChange={e => setProfilePic(e.target.files[0])}
-              ></input>
-              <label for="upload-pic">
-                {" "}
-                <span class="material-symbols-outlined">photo_camera</span>
-              </label>
-              <button className="btn" onClick={uploadProfilePic}>
-                Upload
-              </button>
-            </div>
+            <img
+              className="profile__profile-pic"
+              src={profileURL ? profileURL : "../defaultprofile.png"}
+              alt=""
+            />
+            {ownProfile && (
+              <div className="profile__photo-edit">
+                <input
+                  className="profile__photo-upload"
+                  accept="image/*"
+                  type="file"
+                  id="upload-pic"
+                  onChange={e => setProfilePic(e.target.files[0])}
+                ></input>
+                <label for="upload-pic">
+                  {" "}
+                  <span class="material-symbols-outlined">photo_camera</span>
+                </label>
+                <button
+                  className="btn profile__photo-edit-btn"
+                  onClick={uploadProfilePic}
+                >
+                  Upload
+                </button>
+              </div>
+            )}
           </div>
           <div className="profile__about">
             <h1 className="profile__about-heading--main">
@@ -202,7 +213,7 @@ function Profile() {
           </div>
         </div>
         <div className="profile__reviews">
-          <h1>Reviews</h1>
+          <h1 className="profile__reviews-heading">Reviews</h1>
           {userReviews.length < 1 && (
             <p>{username} hasn't uploaded any reviews just yet.</p>
           )}

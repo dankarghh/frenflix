@@ -4,33 +4,39 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { auth, db } from "./firebase-config";
-import {
-  setDoc,
-  doc,
-  collection,
-  getDocs,
-  onSnapshot,
-} from "firebase/firestore";
+import { setDoc, doc, collection, onSnapshot } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
-  const userCollectionRef = collection(db, "users");
+  // const userCollectionRef = collection(db, "users");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [allReviews, setAllReviews] = useState([]);
+  const [notificationClicked, setNotificationClicked] = useState(false);
 
-  function createAccount(email, password, username) {
-    createUserWithEmailAndPassword(auth, email, password);
-    setDoc(doc(db, "users", email), {
+  async function createAccount(email, password, username) {
+    await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, "users", email), {
       username: username,
       about: "",
       criticRating: "8",
-      reviews: "",
     });
+  }
+
+  onAuthStateChanged(auth, currentUser => {
+    setUser(currentUser);
+    if (currentUser) {
+      findLoggedInUser(currentUser.email);
+    }
+  });
+
+  function findLoggedInUser(email) {
+    const activeUser = allUsers.find(user => user.id === email);
+    setLoggedInUser(activeUser);
   }
 
   function logIn(email, password) {
@@ -40,10 +46,6 @@ export function AuthContextProvider({ children }) {
   function logOut() {
     signOut(auth);
   }
-
-  onAuthStateChanged(auth, currentUser => {
-    setUser(currentUser);
-  });
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
@@ -62,7 +64,7 @@ export function AuthContextProvider({ children }) {
     });
 
     return unsubscribe;
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
@@ -70,17 +72,14 @@ export function AuthContextProvider({ children }) {
       setAllUsers(data);
     });
 
-    return unsubscribe();
-  }, []);
-
-  async function findLoggedInUser(email) {
-    const activeUser = allUsers.find(user => user.id === email);
-    setLoggedInUser(activeUser);
-  }
+    return unsubscribe;
+  }, [auth, user]);
 
   useEffect(() => {
-    findLoggedInUser(user.email);
-  }, [user]);
+    if (user) {
+      findLoggedInUser(user.email);
+    }
+  }, [auth, user]);
 
   return (
     <AuthContext.Provider
@@ -95,6 +94,9 @@ export function AuthContextProvider({ children }) {
         loggedInUser,
         setLoggedInUser,
         allReviews,
+        notificationClicked,
+        setNotificationClicked,
+        findLoggedInUser,
       }}
     >
       {children}

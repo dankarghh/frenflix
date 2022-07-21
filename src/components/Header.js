@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import SignIn from "./SignIn";
+
 import {
   onSnapshot,
   collection,
@@ -9,13 +9,18 @@ import {
   doc,
   where,
   updateDoc,
-  setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
-import NewsfeedReview from "./NewsfeedReview";
 
 function Header() {
-  const { user, logOut, loggedInUser, allReviews } = useContext(AuthContext);
+  const {
+    user,
+    logOut,
+    loggedInUser,
+    setLoggedInUser,
+    setNotificationClicked,
+  } = useContext(AuthContext);
+
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -24,6 +29,7 @@ function Header() {
 
   function handleLogOut() {
     logOut();
+
     navigate("signin");
   }
 
@@ -43,6 +49,7 @@ function Header() {
     } catch (error) {
       console.log(error);
     }
+    setNotificationClicked(true);
     navigate({
       pathname: "/newsfeed",
       search: `?id=${reviewId}`,
@@ -58,22 +65,23 @@ function Header() {
     setShowNotifications(prevState => !prevState);
   }
 
-  // useEffect(() => {
-  //   if (loggedInUser?.id === undefined) {
-  //     return;
-  //   }
-  //   const q = query(
-  //     collection(db, "reviews"),
-  //     where("author", "==", loggedInUser?.id)
-  //   );
+  useEffect(() => {
+    if (loggedInUser?.id === undefined) {
+      setUserReviews([]);
+      return;
+    }
+    const q = query(
+      collection(db, "reviews"),
+      where("author", "==", loggedInUser?.id)
+    );
 
-  //   const unsubscribe = onSnapshot(q, querySnapshot => {
-  //     setUserReviews(
-  //       querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-  //     );
-  //   });
-  //   return unsubscribe;
-  // }, [loggedInUser]);
+    const unsubscribe = onSnapshot(q, querySnapshot => {
+      setUserReviews(
+        querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+      );
+    });
+    return unsubscribe;
+  }, [loggedInUser, user]);
 
   function getNotifications() {
     let newArray = [];
@@ -91,21 +99,28 @@ function Header() {
     getNotifications();
   }, [userReviews]);
 
-  const notificationDropDown = notifications?.map(notification => {
-    return (
-      <div
-        className="header__notification-drop-down-message"
-        onClick={e =>
-          handleNotificationClick(
-            notification.reviewId,
-            notification.notificationId
-          )
-        }
-      >
-        {notification.message}
+  const notificationDropDown =
+    notifications?.length > 0 ? (
+      notifications.map(notification => {
+        return (
+          <div
+            className="header__notification-drop-down-message"
+            onClick={e =>
+              handleNotificationClick(
+                notification.reviewId,
+                notification.notificationId
+              )
+            }
+          >
+            {notification.message}
+          </div>
+        );
+      })
+    ) : (
+      <div className="header__notification-drop-down-message">
+        No new notifications
       </div>
     );
-  });
 
   return (
     <div className="header">

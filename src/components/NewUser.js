@@ -1,3 +1,4 @@
+import { contains } from "@firebase/util";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,17 +9,41 @@ function NewUser() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
-  const { createAccount, auth, setUser, user } = useContext(AuthContext);
+  const { createAccount, logIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [emailErr, setEmailErr] = useState("");
+  const [passwordErr, setPasswordErr] = useState("");
+  const [usernameErr, setUsernameErr] = useState("");
 
   async function handleSignUp(e) {
     e.preventDefault();
+    if (username === "") {
+      setUsernameErr("Username cannot be left blank");
+      return;
+    } else if (validateEmail(email) === false) {
+      return;
+    } else if (password.length < 6) {
+      setPasswordErr("Password must contain at least 6 characters");
+      return;
+    }
+
     try {
       await createAccount(email, password, username);
 
       navigate("/newsfeed");
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  function validateEmail(email) {
+    const validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (email.match(validRegex)) {
+      return true;
+    } else {
+      setEmailErr("Please enter a valid email address");
+      return false;
     }
   }
 
@@ -32,12 +57,14 @@ function NewUser() {
           value={username}
           onChange={e => setUsername(e.target.value)}
         ></input>
+        {usernameErr}
         <input
           name="email"
           placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         ></input>
+        {emailErr}
         <input
           value={password}
           name="password"
@@ -45,6 +72,7 @@ function NewUser() {
           type="password"
           onChange={e => setPassword(e.target.value)}
         ></input>
+        {passwordErr}
         <button className="btn" type="button" onClick={e => handleSignUp(e)}>
           SIGN UP
         </button>

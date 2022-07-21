@@ -15,55 +15,57 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 function Newsfeed() {
-  const { user, loggedInUser, auth, allUsers } = useContext(AuthContext);
-
-  const [allReviews, setAllReviews] = useState([]);
+  const {
+    user,
+    loggedInUser,
+    auth,
+    findLoggedInUser,
+    allUsers,
+    allReviews,
+    notificationClicked,
+    setNotificationClicked,
+  } = useContext(AuthContext);
   const [comment, setComment] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchId, setSearchId] = useState(null);
-  // const userCollectionRef = collection(db, "users");
-  const reviewId = searchParams.get("id");
-  const navigate = useNavigate();
-  // useEffect(() => {
-  //   setSearchId(reviewId);
-  // });
+  // const [searchId, setSearchId] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "reviews"), snapshot => {
-      setAllReviews(
-        snapshot.docs
-          .map(doc => ({ ...doc.data(), id: doc.id }))
-          .sort(function sortPosts(a, b) {
-            if (a.created < b.created) {
-              return 1;
-            }
-            if (a.created > b.created) {
-              return -1;
-            }
-          })
-      );
-    });
-
-    return unsubscribe;
+    if (!loggedInUser) {
+      findLoggedInUser(user.email);
+    }
   }, []);
 
-  useEffect(() => {
-    if (auth.currentUser === null) {
-      navigate("/signin");
-    }
-  });
+  const navigate = useNavigate();
+  const searchId = searchParams.get("id");
 
-  function navigateToNotification() {
-    const reviewLinked = document.getElementById(searchId);
+  // useEffect(() => {
+  //   if (auth.currentUser === null) {
+  //     navigate("/signin");
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (notificationClicked === false) {
+      return;
+    } else {
+      const reviewId = searchParams.get("id");
+      navigateToNotification(reviewId);
+      setNotificationClicked(false);
+    }
+  }, [notificationClicked]);
+
+  function navigateToNotification(reviewId) {
+    const reviewLinked = document.getElementById(reviewId);
 
     if (reviewLinked) {
       reviewLinked.scrollIntoView(false);
     }
+    setNotificationClicked(false);
   }
 
   useEffect(() => {
-    navigateToNotification();
-  }, [searchId, reviewId]);
+    navigateToNotification(searchId);
+  }, [searchId]);
 
   async function addComment(e, id) {
     e.preventDefault();
@@ -90,6 +92,7 @@ function Newsfeed() {
   const allReviewElements = allReviews.map(review => {
     return (
       <NewsfeedReview
+        key={review.id}
         author={review.author}
         summary={review.summary}
         reviewBody={review.reviewBody}

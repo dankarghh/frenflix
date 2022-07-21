@@ -102,6 +102,7 @@ function NewReview() {
   const resultElements = results.map(movie => {
     return (
       <SearchResult
+        key={movie.id}
         handleWriteReview={handleWriteReview}
         id={movie.id}
         title={movie.title}
@@ -131,13 +132,12 @@ function NewReview() {
 
   return (
     <div className="main">
-       <div
-          className="review__search-cover hidden"
-          onClick={handleCloseReviewForm}
-        ></div>
+      <div
+        className="review__search-cover hidden"
+        onClick={handleCloseReviewForm}
+      ></div>
       <SideNav />
       <div className="review">
-       
         <h1 className="review__heading">Search for movie to review</h1>
         <form onSubmit={searchMovie}>
           <input
