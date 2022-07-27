@@ -74,26 +74,36 @@ function NewsfeedReview(props) {
       let downVoteArr = props.downVotes.filter(vote => vote !== user.email);
       await updateDoc(reviewDoc, { upVotes: arrayUnion(user.email) });
       await updateDoc(reviewDoc, { downVotes: downVoteArr });
-      await updateDoc(reviewDoc, {
-        notifications: arrayUnion({
-          message: `${loggedInUser.username} liked your review`,
-          notificationId: uuid(),
-          reviewId: props.id,
-          read: false,
-        }),
-      });
+
+      if (loggedInUser.username === postAuthor.username) {
+        return;
+      } else {
+        await updateDoc(reviewDoc, {
+          notifications: arrayUnion({
+            message: `${loggedInUser.username} liked your review`,
+            notificationId: uuid(),
+            reviewId: props.id,
+            read: false,
+          }),
+        });
+      }
     } else if (newVote === -1 && !props.downVotes.includes(user.email)) {
       let upVoteArr = props.upVotes.filter(vote => vote !== user.email);
       await updateDoc(reviewDoc, { downVotes: arrayUnion(user.email) });
       await updateDoc(reviewDoc, { upVotes: upVoteArr });
-      await updateDoc(reviewDoc, {
-        notifications: arrayUnion({
-          message: `${loggedInUser.username} thought your review was trash`,
-          notificationId: uuid(),
-          reviewId: props.id,
-          read: false,
-        }),
-      });
+
+      if (loggedInUser.username === postAuthor.username) {
+        return;
+      } else {
+        await updateDoc(reviewDoc, {
+          notifications: arrayUnion({
+            message: `${loggedInUser.username} thought your review was trash`,
+            notificationId: uuid(),
+            reviewId: props.id,
+            read: false,
+          }),
+        });
+      }
     }
   }
 
@@ -179,7 +189,7 @@ function NewsfeedReview(props) {
         <div className="user-initials">
           {props.user?.email[0].toUpperCase()}
         </div>{" "}
-        <form onSubmit={e => props.addComment(e, props.id)}>
+        <form onSubmit={e => props.addComment(e, props.id, props.author)}>
           <input
             value={props.comment}
             name="comment"

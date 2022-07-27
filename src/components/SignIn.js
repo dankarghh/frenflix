@@ -7,6 +7,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -17,10 +18,13 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      await logIn(email, password);
+      setLoading(true);
       setErrorMsg("");
+      await logIn(email, password);
+      setLoading(false);
       navigate("/newsfeed");
     } catch (error) {
+      setLoading(false);
       setErrorMsg("Username/Password not found");
     }
   }
@@ -50,7 +54,7 @@ function SignIn() {
           onClick={e => handleSignIn(e, email, password)}
           className="btn"
         >
-          LOG IN
+          {loading ? <p>SIGNING IN...</p> : <p>LOG IN</p>}
         </button>
         <div>
           <p>

@@ -75,7 +75,7 @@ function Newsfeed() {
     navigateToNotification(searchId);
   }, [searchId]);
 
-  async function addComment(e, id) {
+  async function addComment(e, id, author) {
     e.preventDefault();
     // const userRef = doc(db, "users", user?.email);
     const reviewRef = doc(db, "reviews", id);
@@ -86,14 +86,20 @@ function Newsfeed() {
       }),
     });
 
-    await updateDoc(reviewRef, {
-      notifications: arrayUnion({
-        message: `${loggedInUser.username} commented on your review`,
-        notificationId: uuid(),
-        reviewId: id,
-        read: false,
-      }),
-    });
+    if (loggedInUser.id === author) {
+      setComment("");
+      return;
+    } else {
+      await updateDoc(reviewRef, {
+        notifications: arrayUnion({
+          message: `${loggedInUser.username} commented on your review`,
+          notificationId: uuid(),
+          reviewId: id,
+          read: false,
+        }),
+      });
+    }
+
     setComment("");
   }
 

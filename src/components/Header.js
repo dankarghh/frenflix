@@ -165,9 +165,9 @@ function Header() {
           >
             notifications
             {notifications?.length > 0 && (
-              <span className="header__notification-number">
+              <p className="header__notification-number">
                 {notifications?.length}
-              </span>
+              </p>
             )}
           </span>
           <button className="btn btn--logout" onClick={handleLogOut}>

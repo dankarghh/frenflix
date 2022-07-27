@@ -27,15 +27,28 @@ function SideNav() {
       let currentRating = user.criticRating;
 
       let newRating = 8;
+      let ownVote = 0;
       if (resultArr.length === 0) {
         return;
       }
       for (let i = 0; i < resultArr.length; i++) {
+        if (resultArr[i].upVotes.includes(user.id)) {
+          ownVote = -1;
+        } else if (resultArr[i].downVotes.includes(user.id)) {
+          ownVote = 1;
+        }
         newRating = newRating + resultArr[i].upVotes.length;
         newRating = newRating - resultArr[i].downVotes.length;
+        newRating = newRating + ownVote;
       }
       if (newRating === currentRating) {
         return;
+      } else if (newRating > 10) {
+        newRating = 10;
+        upDateCriticScore(user.id, newRating);
+      } else if (newRating < 0) {
+        newRating = 0;
+        upDateCriticScore(user.id, newRating);
       } else {
         upDateCriticScore(user.id, newRating);
       }

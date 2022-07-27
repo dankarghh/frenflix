@@ -189,7 +189,7 @@ textarea::placeholder {
 .form {
   display: flex;
   flex-direction: column;
-
+  min-width: 400px;
   max-width: 400px;
   box-sizing: content-box;
   padding: 3rem;
@@ -481,6 +481,14 @@ textarea::placeholder {
   .sidenav__container {
     min-width: 200px;
   }
+  .review__search-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 700px) {
+  .review__search-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media screen and (max-width: 600px) {
   .profile__review-container {
@@ -488,7 +496,9 @@ textarea::placeholder {
   }
   .profile {
     margin: 10px;
+    width: 100%;
   }
+
   .profile__info {
     flex-direction: column;
     align-items: center;
@@ -523,6 +533,7 @@ textarea::placeholder {
   .sidenav__container {
     height: 0;
     width: 0;
+    z-index: 1;
   }
   .home__review-container {
     margin: 15px 5px;
@@ -530,6 +541,7 @@ textarea::placeholder {
   }
   .form {
     padding: 1rem;
+    min-width: 250px;
     width: 100%;
     margin: 1rem;
   }

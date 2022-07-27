@@ -14,6 +14,7 @@ function NewUser() {
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
   const [usernameErr, setUsernameErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSignUp(e) {
     e.preventDefault();
@@ -28,11 +29,12 @@ function NewUser() {
     }
 
     try {
+      setLoading(true);
       await createAccount(email, password, username);
-
+      setLoading(false);
       navigate("/newsfeed");
     } catch (error) {
-      console.log(error);
+      setLoading(false);
     }
   }
 
@@ -73,8 +75,8 @@ function NewUser() {
           onChange={e => setPassword(e.target.value)}
         ></input>
         {passwordErr}
-        <button className="btn" type="button" onClick={e => handleSignUp(e)}>
-          SIGN UP
+        <button className="btn" type="submit" onClick={e => handleSignUp(e)}>
+          {loading ? <p>SIGNING UP...</p> : <p>SIGN UP</p>}
         </button>
         <div>
           <p>
