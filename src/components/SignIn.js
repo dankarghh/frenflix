@@ -9,9 +9,9 @@ function SignIn() {
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
 
-  // useEffect(() => {
-  //   auth.currentUser && navigate("/newsfeed");
-  // }, []);
+  useEffect(() => {
+    auth.currentUser && navigate("/newsfeed");
+  }, [auth, loggedInUser]);
 
   async function handleSignIn(e, email, password) {
     e.preventDefault();

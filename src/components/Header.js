@@ -65,6 +65,11 @@ function Header() {
     setShowNotifications(prevState => !prevState);
   }
 
+  function handleOpenSideMenu() {
+    const sideNav = document.querySelector(".sidenav");
+    sideNav.classList.toggle("open-modal");
+  }
+
   useEffect(() => {
     if (loggedInUser?.id === undefined) {
       setUserReviews([]);
@@ -125,13 +130,34 @@ function Header() {
   return (
     <div className="header">
       <Link to="/newsfeed">
-        <h1 className="header__heading">FRENFLIX</h1>
+        <h1
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          }}
+          className="header__heading"
+        >
+          CRITICS
+        </h1>
       </Link>
 
       {user?.email ? (
         <div className="btn-container">
+          <Link to="./review">
+            <span class="material-symbols-outlined header-icon">
+              edit_document
+            </span>
+          </Link>
+          <span
+            onClick={handleOpenSideMenu}
+            class="material-symbols-outlined header-icon"
+          >
+            group
+          </span>
           <Link to={`/profile/${loggedInUser?.username}`}>
-            <p>Profile</p>
+            <span class="material-symbols-outlined  header-icon">
+              account_circle
+            </span>
+            <p className="header__heading--profile"> Profile</p>
           </Link>
           <span
             onClick={toggleNotificationMenu}
@@ -144,8 +170,9 @@ function Header() {
               </span>
             )}
           </span>
-          <button className="btn" onClick={handleLogOut}>
-            Logout
+          <button className="btn btn--logout" onClick={handleLogOut}>
+            <span class="material-symbols-outlined  header-icon">logout</span>
+            <p className="btn--logout-text ">Logout</p>
           </button>
           <div className="header__notification-drop-down hidden">
             {notificationDropDown}
@@ -154,10 +181,10 @@ function Header() {
       ) : (
         <div className="btn-container">
           <Link to="/newuser">
-            <button className="btn">Sign Up</button>
+            <button className="btn btn--signed-out">Sign Up</button>
           </Link>
           <Link to="/signin">
-            <button className="btn">Log In</button>
+            <button className="btn btn--signed-out">Log In</button>
           </Link>
         </div>
       )}

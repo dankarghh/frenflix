@@ -82,7 +82,7 @@ function SideNav() {
   return (
     <div className="sidenav__container">
       <div className="sidenav">
-        <Link to="/review">
+        <Link className="sidenav__new-review-link" to="/review">
           <div className="sideNav__new-review">
             <h2>Write Review</h2>
             <span class="material-symbols-outlined icon--blue">add</span>

@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
 
-import { db } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 import AuthContext from "../AuthContext";
 import SideNav from "./SideNav";
 import NewsfeedReview from "./NewsfeedReview";
@@ -18,7 +18,7 @@ function Newsfeed() {
   const {
     user,
     loggedInUser,
-    auth,
+
     findLoggedInUser,
     allUsers,
     allReviews,
@@ -29,20 +29,28 @@ function Newsfeed() {
   const [searchParams, setSearchParams] = useSearchParams();
   // const [searchId, setSearchId] = useState(null);
 
-  useEffect(() => {
-    if (!loggedInUser) {
-      findLoggedInUser(user.email);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!loggedInUser) {
+  //     findLoggedInUser(user.email);
+  //   }
+  // }, []);
 
   const navigate = useNavigate();
   const searchId = searchParams.get("id");
 
-  // useEffect(() => {
-  //   if (auth.currentUser === null) {
-  //     navigate("/signin");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const searchId = searchParams.get("id");
+
+    if (!searchId) {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!auth.currentUser) {
+      navigate("/signIn");
+    }
+  });
 
   useEffect(() => {
     if (notificationClicked === false) {
@@ -58,7 +66,7 @@ function Newsfeed() {
     const reviewLinked = document.getElementById(reviewId);
 
     if (reviewLinked) {
-      reviewLinked.scrollIntoView(false);
+      reviewLinked.scrollIntoView({ behavior: "smooth", block: "center" });
     }
     setNotificationClicked(false);
   }
