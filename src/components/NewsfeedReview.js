@@ -128,10 +128,28 @@ function NewsfeedReview(props) {
         src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}
         alt=""
       ></img>
+
       <div className="home__review-caption">
-        <Link to={`/profile/${postAuthor?.username}`}>
+        {/* <Link to={`/profile/${postAuthor?.username}`}>
           {postAuthor?.username}
-        </Link>
+        </Link> */}
+        <span className="home__review-rating-container">
+          <span className="material-symbols-outlined home__review-rating-star">
+            {props.rating > 0 ? "star" : "grade"}
+          </span>
+          <span className="material-symbols-outlined home__review-rating-star">
+            {props.rating > 1 ? "star" : "grade"}
+          </span>
+          <span className="material-symbols-outlined home__review-rating-star">
+            {props.rating > 2 ? "star" : "grade"}
+          </span>
+          <span className="material-symbols-outlined home__review-rating-star">
+            {props.rating > 3 ? "star" : "grade"}
+          </span>
+          <span className="material-symbols-outlined home__review-rating-star">
+            {props.rating > 4 ? "star" : "grade"}
+          </span>
+        </span>
         <div className="home__review-vote-container">
           <span className="home__review-upvote-container">
             <span
@@ -179,7 +197,26 @@ function NewsfeedReview(props) {
           </span>
         </div>
       </div>
-      <h3>Rating: {props.rating}/5</h3>
+      <Link to={`/profile/${postAuthor?.username}`}>
+        {postAuthor?.username}
+      </Link>
+      {/* <span className="home__review-rating-container">
+        <span className="material-symbols-outlined home__review-rating-star">
+          {props.rating > 0 ? "star" : "grade"}
+        </span>
+        <span className="material-symbols-outlined home__review-rating-star">
+          {props.rating > 1 ? "star" : "grade"}
+        </span>
+        <span className="material-symbols-outlined home__review-rating-star">
+          {props.rating > 2 ? "star" : "grade"}
+        </span>
+        <span className="material-symbols-outlined home__review-rating-star">
+          {props.rating > 3 ? "star" : "grade"}
+        </span>
+        <span className="material-symbols-outlined home__review-rating-star">
+          {props.rating > 4 ? "star" : "grade"}
+        </span>
+      </span> */}
       <p>
         <b>{props.summary}</b>
       </p>

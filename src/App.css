@@ -239,6 +239,9 @@ textarea::placeholder {
   align-items: center;
   margin-bottom: 5px;
 }
+.material-symbols-outlined.home__review-rating-star {
+  cursor: default;
+}
 .home__comment-content {
   margin-left: 1rem;
   background-color: #474646;
@@ -272,8 +275,6 @@ textarea::placeholder {
 .home__comment-view-all {
   padding-top: 0.5rem;
   cursor: pointer;
-}
-.home__review-vote-icon:hover {
 }
 
 .home__review-upvote-container {
