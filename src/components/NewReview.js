@@ -217,7 +217,7 @@ function NewReview() {
             <button className="btn" onClick={handleCloseReviewForm}>
               Close
             </button>
-            <button className="btn " onClick={handlePublishReview}>
+            <button className="btn" type="button" onClick={handlePublishReview}>
               Publish
             </button>
           </div>
