@@ -1,10 +1,5 @@
-import {
-  arrayUnion,
-  updateDoc,
-  doc,
-  onSnapshot,
-  collection,
-} from "firebase/firestore";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { arrayUnion, updateDoc, doc } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
 
 import { auth, db } from "../firebase-config";
@@ -18,22 +13,14 @@ function Newsfeed() {
   const {
     user,
     loggedInUser,
-
-    findLoggedInUser,
     allUsers,
     allReviews,
     notificationClicked,
     setNotificationClicked,
   } = useContext(AuthContext);
   const [comment, setComment] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [searchId, setSearchId] = useState(null);
-
-  // useEffect(() => {
-  //   if (!loggedInUser) {
-  //     findLoggedInUser(user.email);
-  //   }
-  // }, []);
 
   const navigate = useNavigate();
   const searchId = searchParams.get("id");

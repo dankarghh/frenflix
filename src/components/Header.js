@@ -17,7 +17,7 @@ function Header() {
     user,
     logOut,
     loggedInUser,
-    setLoggedInUser,
+
     setNotificationClicked,
   } = useContext(AuthContext);
 

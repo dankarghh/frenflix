@@ -1,5 +1,3 @@
-import { contains } from "@firebase/util";
-import { onAuthStateChanged } from "firebase/auth";
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
@@ -9,7 +7,7 @@ function NewUser() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
-  const { createAccount, logIn } = useContext(AuthContext);
+  const { createAccount } = useContext(AuthContext);
   const navigate = useNavigate();
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");

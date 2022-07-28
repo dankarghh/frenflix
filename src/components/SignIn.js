@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function SignIn() {
-  const { logIn, user, loggedInUser, auth } = useContext(AuthContext);
+  const { logIn, loggedInUser, auth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");

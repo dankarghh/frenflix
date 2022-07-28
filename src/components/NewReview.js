@@ -3,14 +3,12 @@ import AuthContext from "../AuthContext";
 import SearchResult from "./SearchResult";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SideNav from "./SideNav";
-import { getActiveElement } from "@testing-library/user-event/dist/utils";
 
 function NewReview() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-  const [trendingMovies, setTrendingMovies] = useState({});
   const { user } = useContext(AuthContext);
   const [writeReview, setWriteReview] = useState(false);
   const [movieForReview, setMovieForReview] = useState({});

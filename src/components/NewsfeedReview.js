@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import AuthContext from "../AuthContext";
 import { db } from "../firebase-config";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 function NewsfeedReview(props) {
@@ -10,7 +10,7 @@ function NewsfeedReview(props) {
   const [vote, setVote] = useState();
 
   const { user, loggedInUser } = useContext(AuthContext);
-  const { id } = useParams();
+  // const { id } = useParams();
   const [likeHover, setLikeHover] = useState(false);
   const [dislikeHover, setDislikeHover] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
