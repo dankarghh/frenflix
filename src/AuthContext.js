@@ -52,6 +52,7 @@ export function AuthContextProvider({ children }) {
       setAllReviews(
         snapshot.docs
           .map(doc => ({ ...doc.data(), id: doc.id }))
+          // eslint-disable-next-line array-callback-return
           .sort(function sortPosts(a, b) {
             if (a.created < b.created) {
               return 1;
@@ -66,6 +67,7 @@ export function AuthContextProvider({ children }) {
     return unsubscribe;
   }, [user]);
 
+  // the following 2 use effects may require auth dependancy
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
       const data = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -73,13 +75,14 @@ export function AuthContextProvider({ children }) {
     });
 
     return unsubscribe;
-  }, [auth, user]);
+  }, [user]);
 
   useEffect(() => {
     if (user) {
       findLoggedInUser(user.email);
     }
-  }, [auth, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <AuthContext.Provider

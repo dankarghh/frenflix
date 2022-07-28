@@ -1,4 +1,4 @@
-import AuthContext, { AuthContextProvider } from "./AuthContext";
+import { AuthContextProvider } from "./AuthContext";
 import Header from "./components/Header";
 import NewUser from "./components/NewUser";
 import "./App.css";
@@ -7,9 +7,8 @@ import NewReview from "./components/NewReview";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn";
-import SideNav from "./components/SideNav";
+
 import Newsfeed from "./components/Newsfeed";
-import { useContext } from "react";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           <Header />
 
           <div className="">
-            {/* <SideNav /> */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/newsfeed" element={<Newsfeed />} />
