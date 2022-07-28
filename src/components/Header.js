@@ -138,7 +138,7 @@ function Header() {
       </Link>
 
       {user?.email ? (
-        <div className="btn-container">
+        <div className="btn-container header__btn-container">
           <Link to="./review">
             <span class="material-symbols-outlined header-icon">
               edit_document

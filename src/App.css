@@ -504,14 +504,6 @@ textarea::placeholder {
   }
 }
 
-@media screen and (max-width: 400px) {
-  .review__write {
-    width: 80%;
-    padding: 1rem;
-    min-height: auto;
-  }
-}
-
 @media screen and (max-width: 600px) {
   .profile__review-container {
     grid-template-columns: repeat(2, 1fr);
@@ -623,6 +615,17 @@ textarea::placeholder {
 
   .header__notification-drop-down {
     margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .review__write {
+    width: 80%;
+    padding: 1rem;
+    min-height: auto;
+  }
+  .header__heading {
+    font-size: 20px;
   }
 }
 .profile__user-review-rating {
