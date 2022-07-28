@@ -13,7 +13,6 @@ function Profile() {
   const userCollectionRef = collection(db, "users");
   const { username } = useParams();
   const { loggedInUser } = useContext(AuthContext);
-
   const [profileURL, setProfileURL] = useState("");
   const [userData, setUserData] = useState(null);
   const [about, setAbout] = useState("");
@@ -65,7 +64,7 @@ function Profile() {
       console.log(error);
     }
   }
-
+console.log('')
   function handleReviewClick(reviewId) {
     navigate({
       pathname: "/newsfeed",
