@@ -18,7 +18,9 @@ p {
 .hidden {
   display: none;
 }
-
+p {
+  line-height: 1.2;
+}
 .App {
   background-color: #1b1b1b;
   color: #e5e5e5;
@@ -206,6 +208,11 @@ textarea::placeholder {
   border-radius: 10px;
   max-width: 600px;
 }
+
+.home__review-container-summary {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .input--comment {
   border-radius: 10px;
   width: 100%;
@@ -241,6 +248,7 @@ textarea::placeholder {
 }
 .material-symbols-outlined.home__review-rating-star {
   cursor: default;
+  font-size: 30px;
 }
 .home__comment-content {
   margin-left: 1rem;
