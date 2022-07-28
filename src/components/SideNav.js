@@ -1,11 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  updateDoc,
-  getDocs,
-} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { Link } from "react-router-dom";
 import AuthContext from "../AuthContext";
@@ -71,6 +66,7 @@ function SideNav() {
   }, [allReviews]);
 
   const mappedUsers = allUsersCopy
+    // eslint-disable-next-line array-callback-return
     .sort(function (a, b) {
       if (a.criticRating < b.criticRating) {
         return 1;

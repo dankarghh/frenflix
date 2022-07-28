@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { collection, doc, updateDoc, getDocs } from "firebase/firestore";
 import React from "react";
 import { useContext, useEffect, useState } from "react";

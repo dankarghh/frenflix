@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,16 +14,12 @@ import {
 import { db } from "../firebase-config";
 
 function Header() {
-  const {
-    user,
-    logOut,
-    loggedInUser,
-
-    setNotificationClicked,
-  } = useContext(AuthContext);
+  const { user, logOut, loggedInUser, setNotificationClicked } =
+    useContext(AuthContext);
 
   const [userReviews, setUserReviews] = useState([]);
   const [notifications, setNotifications] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [showNotifications, setShowNotifications] = useState(false);
 
   let navigate = useNavigate();

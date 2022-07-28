@@ -12,6 +12,7 @@ function NewReview() {
   const { user } = useContext(AuthContext);
   const [writeReview, setWriteReview] = useState(false);
   const [movieForReview, setMovieForReview] = useState({});
+  // eslint-disable-next-line no-unused-vars
   const [review, setReview] = useState({});
   const [summary, setSummary] = useState("");
   const [reviewBody, setReviewBody] = useState("");

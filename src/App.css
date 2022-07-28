@@ -419,7 +419,7 @@ textarea::placeholder {
 .profile__photo {
   margin-right: 2rem;
   width: 250px;
-  max-height: 250px;
+  height: 250px;
 }
 .profile__profile-pic {
   width: 100%;

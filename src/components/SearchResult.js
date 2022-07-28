@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../AuthContext";
+import React, { useState } from "react";
 
 function SearchResult(props) {
   const [hover, setHover] = useState(false);
