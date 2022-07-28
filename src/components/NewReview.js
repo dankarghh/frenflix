@@ -71,7 +71,8 @@ function NewReview() {
     }
   }
 
-  async function handlePublishReview() {
+  async function handlePublishReview(e) {
+    e.preventDefault();
     if (checkErrs() !== true) {
       return;
     } else {
@@ -217,7 +218,11 @@ function NewReview() {
             <button className="btn" onClick={handleCloseReviewForm}>
               Close
             </button>
-            <button className="btn" type="button" onClick={handlePublishReview}>
+            <button
+              className="btn"
+              type="button"
+              onClick={e => handlePublishReview(e)}
+            >
               Publish
             </button>
           </div>
