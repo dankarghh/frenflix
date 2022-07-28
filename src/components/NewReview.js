@@ -220,7 +220,7 @@ function NewReview() {
             </button>
             <button
               className="btn"
-              type="button"
+              type="submit"
               onClick={e => handlePublishReview(e)}
             >
               Publish
