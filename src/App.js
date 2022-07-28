@@ -7,7 +7,6 @@ import NewReview from "./components/NewReview";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn";
-
 import Newsfeed from "./components/Newsfeed";
 
 function App() {

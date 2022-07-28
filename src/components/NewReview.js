@@ -163,8 +163,6 @@ function NewReview() {
     setWriteReview(false);
   }
 
-  console.log(results);
-
   return (
     <div className="main">
       <div
@@ -172,7 +170,7 @@ function NewReview() {
         onClick={handleCloseReviewForm}
       ></div>
       {writeReview && (
-        <div className="review__write">
+        <form className="review__write">
           <h1>WRITE REVIEW</h1>
           <h1>
             {selectTelevision ? movieForReview.name : movieForReview.title}
@@ -223,7 +221,7 @@ function NewReview() {
               Publish
             </button>
           </div>
-        </div>
+        </form>
       )}
 
       <SideNav />
@@ -264,76 +262,7 @@ function NewReview() {
               SEARCH
             </button>
           </form>
-          {/* {writeReview && (
-            <div className="review__write">
-              <h1>WRITE REVIEW</h1>
-              <h1>
-                {selectTelevision ? movieForReview.name : movieForReview.title}
-              </h1>
-              <div>
-                <span
-                  onClick={e => setRating(1)}
-                  style={{ fill: "yellow" }}
-                  class="material-symbols-outlined"
-                >
-                  {rating > 0 ? "star" : "grade"}
-                </span>
-                <span
-                  onClick={e => setRating(2)}
-                  class="material-symbols-outlined"
-                >
-                  {rating > 1 ? "star" : "grade"}
-                </span>
-                <span
-                  onClick={e => setRating(3)}
-                  class="material-symbols-outlined"
-                >
-                  {rating > 2 ? "star" : "grade"}
-                </span>
-                <span
-                  onClick={e => setRating(4)}
-                  class="material-symbols-outlined"
-                >
-                  {rating > 3 ? "star" : "grade"}
-                </span>
-                <span
-                  onClick={e => setRating(5)}
-                  class="material-symbols-outlined"
-                >
-                  {rating > 4 ? "star" : "grade"}
-                </span>
-              </div>
-              {ratingErr && (
-                <div className="review__form-error">{ratingErr}</div>
-              )}
-              <input
-                onChange={e => setSummary(e.target.value)}
-                placeholder="brief summary"
-                value={summary}
-                name="summary"
-              ></input>
-              {summaryErr && (
-                <div className="review__form-error">{summaryErr}</div>
-              )}
-              <textarea
-                onChange={e => setReviewBody(e.target.value)}
-                placeholder="write review"
-                value={reviewBody}
-                name="reviewBody"
-              ></textarea>
-              {reviewBodyErr && (
-                <div className="review__form-error">{reviewBodyErr}</div>
-              )}
-              <div className="btn-container">
-                <button className="btn" onClick={handleCloseReviewForm}>
-                  Close
-                </button>
-                <button className="btn " onClick={handlePublishReview}>
-                  Publish
-                </button>
-              </div>
-            </div>
-          )} */}
+
           <div className="review__search-grid">{resultElements}</div>
         </div>
       </div>
@@ -341,32 +270,3 @@ function NewReview() {
   );
 }
 export default NewReview;
-
-// backdrop_path: "/mGVrXeIjyecj6TKmwPVpHlscEmw.jpg"
-// first_air_date: "2019-07-25"
-// genre_ids: (2) [10765, 10759]
-// id: 76479
-// name: "The Boys"
-// origin_country: ['US']
-// original_language: "en"
-// original_name: "The Boys"
-// overview: "A group of vigilantes known informally as “The Boys” set out to take down corrupt superheroes with no more than blue-collar grit and a willingness to fight dirty."
-// popularity: 1681.927
-// poster_path: "/stTEycfG9928HYGEISBFaG1ngjM.jpg"
-// vote_average: 8.5
-// vote_count: 6745
-
-// adult: false
-// backdrop_path: "/wp3vpSWAIjKSEeYb8F5NSZfONqw.jpg"
-// genre_ids: (3) [28, 12, 878]
-// id: 545611
-// original_language: "en"
-// original_title: "Everything Everywhere All at Once"
-// overview: "An aging Chinese immigrant is swept up in an insane adventure, where she alone can save what's important to her by connecting with the lives she could have led in other universes."
-// popularity: 296.996
-// poster_path: "/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg"
-// release_date: "2022-03-24"
-// title: "Everything Everywhere All at Once"
-// video: false
-// vote_average: 8.3
-// vote_count: 998

@@ -50,6 +50,11 @@ function SideNav() {
     });
   }
 
+  function closeSideMenu() {
+    const sideNav = document.querySelector(".sidenav");
+    sideNav.classList.remove("open-modal");
+  }
+
   async function upDateCriticScore(email, newRating) {
     try {
       const userRef = doc(db, "users", email);
@@ -78,7 +83,7 @@ function SideNav() {
     .map(user => {
       return (
         <Link key={user.username} to={`/profile/${user?.username}`}>
-          <div className="sideNav__user">
+          <div onClick={closeSideMenu} className="sideNav__user">
             {user?.username}
             <div className="sideNav__user-critic-badge">
               {user?.criticRating}

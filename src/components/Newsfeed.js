@@ -40,6 +40,11 @@ function Newsfeed() {
   });
 
   useEffect(() => {
+    const mainDiv = document.querySelector("body");
+    mainDiv.classList.remove("no-overflow");
+  }, []);
+
+  useEffect(() => {
     if (notificationClicked === false) {
       return;
     } else {

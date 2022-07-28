@@ -26,6 +26,11 @@ function Profile() {
   let navigate = useNavigate();
 
   useEffect(() => {
+    const mainDiv = document.querySelector("body");
+    mainDiv.classList.remove("no-overflow");
+  }, []);
+
+  useEffect(() => {
     async function getUsersAndFindProfile(username) {
       const resp = await getDocs(userCollectionRef);
       const data = resp.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -138,6 +143,12 @@ function Profile() {
     }
   }
 
+  useEffect(() => {
+    if (profilePic) {
+      uploadProfilePic();
+    }
+  }, [profilePic]);
+
   return (
     <div className="main">
       <SideNav />
@@ -151,6 +162,10 @@ function Profile() {
             />
             {ownProfile && (
               <div className="profile__photo-edit">
+                <label className="profile__photo-edit-img" for="upload-pic">
+                  Upload
+                  <span class="material-symbols-outlined">photo_camera</span>
+                </label>
                 <input
                   className="profile__photo-upload"
                   accept="image/*"
@@ -158,16 +173,6 @@ function Profile() {
                   id="upload-pic"
                   onChange={e => setProfilePic(e.target.files[0])}
                 ></input>
-                <label for="upload-pic">
-                  {" "}
-                  <span class="material-symbols-outlined">photo_camera</span>
-                </label>
-                <button
-                  className="btn profile__photo-edit-btn"
-                  onClick={uploadProfilePic}
-                >
-                  Upload
-                </button>
               </div>
             )}
           </div>

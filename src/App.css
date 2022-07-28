@@ -420,14 +420,18 @@ textarea::placeholder {
   margin-right: 2rem;
   width: 250px;
   height: 250px;
+  min-width: 250px;
 }
 .profile__profile-pic {
   width: 100%;
-
   height: 100%;
   border-radius: 50%;
 }
-
+.profile__photo-edit-img {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 .profile__photo-edit {
   justify-content: center;
   display: flex;
@@ -499,6 +503,15 @@ textarea::placeholder {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media screen and (max-width: 400px) {
+  .review__write {
+    width: 80%;
+    padding: 1rem;
+    min-height: auto;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .profile__review-container {
     grid-template-columns: repeat(2, 1fr);
@@ -506,6 +519,9 @@ textarea::placeholder {
   .profile {
     margin: 10px;
     width: 100%;
+  }
+  .profile__photo {
+    margin: auto;
   }
   .header__heading {
     font-size: 30px;
@@ -603,6 +619,10 @@ textarea::placeholder {
   }
   .review__container {
     padding: 0;
+  }
+
+  .header__notification-drop-down {
+    margin-top: 10px;
   }
 }
 .profile__user-review-rating {
