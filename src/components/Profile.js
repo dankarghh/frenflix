@@ -64,7 +64,7 @@ function Profile() {
       console.log(error);
     }
   }
-console.log('')
+  console.log("");
   function handleReviewClick(reviewId) {
     navigate({
       pathname: "/newsfeed",

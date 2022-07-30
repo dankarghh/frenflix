@@ -28,7 +28,7 @@ function NewUser() {
 
     try {
       setLoading(true);
-      await createAccount(email, password, username);
+      await createAccount(email, password, username.trim());
       setLoading(false);
       navigate("/newsfeed");
     } catch (error) {
