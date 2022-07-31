@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
   onAuthStateChanged,
 } from "firebase/auth";
 import { createContext, useState, useEffect } from "react";
@@ -25,6 +26,10 @@ export function AuthContextProvider({ children }) {
       about: "",
       criticRating: "8",
     });
+  }
+
+  function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email);
   }
 
   onAuthStateChanged(auth, currentUser => {
@@ -67,7 +72,6 @@ export function AuthContextProvider({ children }) {
     return unsubscribe;
   }, [user]);
 
-  // the following 2 use effects may require auth dependancy
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), snapshot => {
       const data = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -100,6 +104,7 @@ export function AuthContextProvider({ children }) {
         notificationClicked,
         setNotificationClicked,
         findLoggedInUser,
+        resetPassword,
       }}
     >
       {children}

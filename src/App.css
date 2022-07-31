@@ -666,3 +666,10 @@ textarea::placeholder {
 .signIn__error-message {
   color: red;
 }
+.forgot__heading {
+  padding-bottom: 1rem;
+}
+.signIn__forgot {
+  text-align: right;
+  padding-bottom: 2rem;
+}

@@ -35,7 +35,6 @@ function SignIn() {
       {" "}
       <form className="form form__sign-in">
         <h2>Log in to your account</h2>
-
         <input
           name="email"
           placeholder="email"
@@ -57,6 +56,9 @@ function SignIn() {
         >
           {loading ? <p>SIGNING IN...</p> : <p>LOG IN</p>}
         </button>
+        <p className="signIn__forgot">
+          <Link to="/forgot">Forgot password?</Link>
+        </p>
         <div>
           <p>
             Not yet signed up? <Link to="/newuser">Sign Up</Link>{" "}

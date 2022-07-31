@@ -1,6 +1,7 @@
 import { AuthContextProvider } from "./AuthContext";
 import Header from "./components/Header";
 import NewUser from "./components/NewUser";
+import Forgot from "./components/Forgot";
 import "./App.css";
 import Profile from "./components/Profile";
 import NewReview from "./components/NewReview";
@@ -24,6 +25,7 @@ function App() {
               <Route path="/profile/:username" element={<Profile />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/newuser" element={<NewUser />} />
+              <Route path="forgot" element={<Forgot />} />
             </Routes>
           </div>
         </BrowserRouter>
